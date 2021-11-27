@@ -48,6 +48,7 @@ export default class LoginPage extends Component {
     };
 
     SignIn = () => {
+        this.props.navigation.navigate('SignIn');
     };
     onGoogleButtonPress = async () => {
         // Get the users ID token
@@ -146,7 +147,7 @@ export default class LoginPage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
+        backgroundColor: 'white',
     },
     body: {
         alignItems: 'center',
@@ -201,14 +202,20 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         color: 'white',
+        fontWeight:'bold'
+
     },
     textG: {
         fontSize: 16,
         color: '#6d6d6d',
+        fontWeight:'bold'
+
     },
     text3: {
         fontSize: 16,
         color: '#0f61c4',
+        fontWeight:'bold'
+
     },
     google: {
         width: 21,

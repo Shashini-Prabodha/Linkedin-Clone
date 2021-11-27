@@ -12,6 +12,8 @@ target 'linkedin_clone' do
     :hermes_enabled => false
   )
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'linkedin_cloneTests' do
     inherit! :complete
     # Pods for testing
