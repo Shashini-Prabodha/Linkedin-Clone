@@ -16,7 +16,7 @@ GoogleSignin.configure({
     webClientId: '603255967584-ebf88ki08kjmor74l148p8d1bgapfhmf.apps.googleusercontent.com',
 });
 
-export default class Welcome extends Component {
+export default class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     logo: {
         width: 90,
         height: 65,
-        marginLeft: 10,
+        marginLeft: 25,
 
     },
     title: {
@@ -181,6 +181,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         marginTop: 30,
+        borderWidth: 1.5,
+        borderColor: '#0f61c4',
+
 
     },
     gsignbtn: {
@@ -189,7 +192,7 @@ const styles = StyleSheet.create({
         borderColor: '#888888',
         borderRadius: 20,
         borderWidth: 1.5,
-        padding: 9,
+        padding: 10,
         width: 350,
         alignItems: 'center',
         justifyContent: 'center',

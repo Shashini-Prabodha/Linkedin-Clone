@@ -5,7 +5,7 @@
 #import <React/RCTRootView.h>
 
 #define TIMEOUT_SECONDS 600
-#define TEXT_TO_LOOK_FOR @"Welcome to React"
+#define TEXT_TO_LOOK_FOR @"LoginPage to React"
 
 @interface linkedin_cloneTests : XCTestCase
 

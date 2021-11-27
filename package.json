@@ -10,12 +10,22 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.13",
     "@react-native-firebase/app": "^13.0.1",
     "@react-native-firebase/auth": "^13.0.1",
     "@react-native-google-signin/google-signin": "^7.0.1",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/material-bottom-tabs": "^6.0.9",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/stack": "^6.0.11",
+    "material-ui-community-icons": "^0.15.0",
     "react": "17.0.2",
     "react-native": "0.66.3",
-    "react-native-paper": "^4.10.1"
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-paper": "^4.10.1",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.9.0",
+    "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
