@@ -13,6 +13,9 @@ export default class AddEmailPw extends Component {
         };
     }
 
+    JoinNow = () => {
+        this.props.navigation.navigate('AddDetails');
+    };
     render() {
         return (
             <KeyboardAvoidingView style={styles.container}>

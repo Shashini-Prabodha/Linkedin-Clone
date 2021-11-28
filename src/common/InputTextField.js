@@ -22,8 +22,8 @@ export function InputTextField({placeHolder,label}) {
 
 const styles = StyleSheet.create({
     input: {
-        width: 360,
-        marginTop: 5,
+        width: 390,
+        marginTop: "3%",
         backgroundColor: 'white',
         color: 'black',
         margin: 8,

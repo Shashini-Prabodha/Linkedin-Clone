@@ -6,7 +6,7 @@ import Home from './src/view/Home';
 import SignIn from './src/view/SignIn';
 import AddName from './src/view/JoinNow/AddName';
 import AddEmailPw from './src/view/JoinNow/AddEmailPw';
-
+import AddDetails from './src/view/JoinNow/AddDetails';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,6 +19,7 @@ export default class App extends Component {
         return (
             <NavigationContainer>
                 <Stack.Navigator>
+                    <Stack.Screen name="AddDetails" options={{headerShown:false}} component={AddDetails}/>
                     <Stack.Screen name="AddEmailPw" options={{headerShown:false}} component={AddEmailPw}/>
                     <Stack.Screen name="AddName" options={{headerShown:false}} component={AddName}/>
                     {/*<Stack.Screen name="LoginPage" options={{headerShown:false}} component={LoginPage}/>*/}
