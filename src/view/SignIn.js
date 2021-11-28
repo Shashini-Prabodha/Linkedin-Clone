@@ -6,6 +6,12 @@ import PasswordInputText from 'react-native-hide-show-password-input';
 import {InputTextField} from '../common/InputTextField';
 import {FloatingLabelInput} from 'react-native-floating-label-input/index';
 import CheckBox from 'react-native-check-box';
+import {GoogleSignin,} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
+
+GoogleSignin.configure({
+    webClientId: '603255967584-ebf88ki08kjmor74l148p8d1bgapfhmf.apps.googleusercontent.com',
+});
 
 class SignIn extends Component {
     constructor(props) {
@@ -17,6 +23,27 @@ class SignIn extends Component {
         };
     }
 
+    JoinNow = () => {
+        this.props.navigation.navigate('');
+    };
+
+    Continue = () => {
+        this.props.navigation.navigate('SignIn');
+    };
+
+    onGoogleButtonPress = async () => {
+        // Get the users ID token
+        const {idToken} = await GoogleSignin.signIn();
+
+        // Create a Google credential with the token
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+        // Sign-in the user with the credential
+        const user = auth().signInWithCredential(googleCredential);
+        console.log((await user).user);
+    };
+
+
     render() {
         return (
             <KeyboardAvoidingView style={styles.container}>
@@ -26,7 +53,7 @@ class SignIn extends Component {
                     resizeMode="contain"
                     style={styles.logo}>
                 </Image>
-                <Text style={styles.joinN}>
+                <Text style={styles.joinN} onPress={this.JoinNow}>
                     Join now </Text>
                 <Text style={styles.title}>Sign in</Text>
                 <View style={styles.body}>
@@ -48,6 +75,7 @@ class SignIn extends Component {
                         value={this.state.password}
                         onChangeText={text => this.setState({password: text})}
                     />
+
 
                 </View>
 
@@ -91,8 +119,7 @@ class SignIn extends Component {
                         <Text style={styles.textG}> Sign in with Google</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.gsignbtn} mode="contained" onPress={() => {
-                    }}>
+                    <TouchableOpacity style={styles.gsignbtn} mode="contained" onPress={() => {}}>
                         <Image
                             source={require('../assets/apple.png')}
                             resizeMode="contain"

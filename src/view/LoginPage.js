@@ -62,6 +62,9 @@ export default class LoginPage extends Component {
         console.log((await user).user);
     };
 
+
+
+
     render() {
         return (
             <KeyboardAvoidingView style={styles.container}>
