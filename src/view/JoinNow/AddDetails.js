@@ -14,7 +14,7 @@ export default class AddDetails extends Component {
     }
 
     Next = () => {
-        this.props.navigation.navigate('');
+        this.props.navigation.navigate('UploadAvator');
     };
 
     render() {
@@ -78,9 +78,9 @@ const styles = StyleSheet.create({
         backgroundColor:'white'
     },
     logo: {
-        width: "50%",
+        width: "49%",
         height:"9%",
-        marginRight:"67%",
+        marginRight:"68%",
         marginBottom:"5%",
     },
     title:{
@@ -93,7 +93,9 @@ const styles = StyleSheet.create({
         color:"#000000",
         fontSize:25,
         fontWeight:"bold",
-        marginRight:"7%"
+        marginRight:"7%",
+        marginTop:"10%"
+
     },
     txtP:{
         color:"#000000",
@@ -108,7 +110,8 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     btnNext: {
-        marginTop:"5%",
+        marginTop:"7%",
+        marginBottom:"7%",
         width: "90%",
         borderRadius: 25,
         backgroundColor: '#0984e3',

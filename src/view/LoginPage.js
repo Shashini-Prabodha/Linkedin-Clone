@@ -26,6 +26,10 @@ export default class LoginPage extends Component {
     }
 
     JoinNow = () => {
+
+        this.props.navigation.navigate('AddEmailPw');
+
+
         // auth()
         // .signInWithEmailAndPassword(this.state.email, this.state.password)
         // .then(() => {

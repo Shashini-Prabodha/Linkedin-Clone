@@ -7,6 +7,7 @@
 // // import LottieView from 'lottie-react-native';
 //
 // import Icon from 'react-native-vector-icons/Ion icons';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
 //
 // import HomeScreen from './Home';
 // import MyNetoworkScreen from './MyNetowork';
@@ -60,21 +61,21 @@
 //                 ),
 //             }}
 //         />
-//         <Tab.Screen
-//             name="PostPage"
-//             component={PostPageStackScreen}
-//             options={{
-//                 tabBarLabel: 'Post',
-//                 tabBarColor: '#1f65ff',
-//                 tabBarIcon: ({color}) => (
-//                     <Image
-//                         source={require('../assets/google_96px.png')}
+//         {/*<Tab.Screen*/}
+//         {/*    name="PostPage"*/}
+//         {/*    component={PostPageStackScreen}*/}
+//         {/*    options={{*/}
+//         {/*        tabBarLabel: 'Post',*/}
+//         {/*        tabBarColor: '#1f65ff',*/}
+//         {/*        tabBarIcon: ({color}) => (*/}
+//         {/*            <Image*/}
+//         {/*                source={require('../assets/google_96px.png')}*/}
 //
-//                         resizeMode="contain"
-//                         style={styles.icon}></Image>
-//                 ),
-//             }}
-//         />
+//         {/*                resizeMode="contain"*/}
+//         {/*                style={styles.icon}></Image>*/}
+//         {/*        ),*/}
+//         {/*    }}*/}
+//         {/*/>*/}
 //         <Tab.Screen
 //             name="Notification"
 //             component={NotificationStackScreen}
@@ -159,25 +160,25 @@
 //         }}/>
 //     </MyNetoworkStack.Navigator>
 // );
-//
-// const PostPageStackScreen = ({navigation}) => (
-//     <PostPageStack.Navigator screenOptions={{
-//         headerStyle: {
-//             backgroundColor: '#1f65ff',
-//         },
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//             fontWeight: 'bold',
-//         },
-//     }}>
-//         <PostPageStack.Screen name="PostPage" component={PostPageScreen} options={{
-//             headerLeft: () => (
-// //<Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
-//                 <Icon></Icon>
-//             ),
-//         }}/>
-//     </PostPageStack.Navigator>
-// );
+// //
+// // const PostPageStackScreen = ({navigation}) => (
+// //     <PostPageStack.Navigator screenOptions={{
+// //         headerStyle: {
+// //             backgroundColor: '#1f65ff',
+// //         },
+// //         headerTintColor: '#fff',
+// //         headerTitleStyle: {
+// //             fontWeight: 'bold',
+// //         },
+// //     }}>
+// //         <PostPageStack.Screen name="PostPage" component={PostPageScreen} options={{
+// //             headerLeft: () => (
+// // //<Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
+// //                 <Icon></Icon>
+// //             ),
+// //         }}/>
+// //     </PostPageStack.Navigator>
+// // );
 //
 // const NotificationStackScreen = ({navigation}) => (
 //     <NotificationStack.Navigator screenOptions={{
@@ -237,54 +238,51 @@
 //
 // });
 //
-//
-//
-
-
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-//
-// const Tab = createBottomTabNavigator();
-//
-// function MyTabs() {
-//     return (
-//         <Tab.Navigator
-//             initialRouteName="Feed"
-//             screenOptions={{
-//                 tabBarActiveTintColor: '#e91e63',
-//             }}
-//         >
-//             <Tab.Screen
-//                 name="Feed"
-//                 component={Feed}
-//                 options={{
-//                     tabBarLabel: 'Home',
-//                     tabBarIcon: ({ color, size }) => (
-//                         <MaterialCommunityIcons name="home" color={color} size={size} />
-//                     ),
-//                 }}
-//             />
-//             <Tab.Screen
-//                 name="Notifications"
-//                 component={Notifications}
-//                 options={{
-//                     tabBarLabel: 'Updates',
-//                     tabBarIcon: ({ color, size }) => (
-//                         <MaterialCommunityIcons name="bell" color={color} size={size} />
-//                     ),
-//                     tabBarBadge: 3,
-//                 }}
-//             />
-//             <Tab.Screen
-//                 name="Profile"
-//                 component={Profile}
-//                 options={{
-//                     tabBarLabel: 'Profile',
-//                     tabBarIcon: ({ color, size }) => (
-//                         <MaterialCommunityIcons name="account" color={color} size={size} />
-//                     ),
-//                 }}
-//             />
-//         </Tab.Navigator>
-//     );
-// }
+// //
+// // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+// // import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// //
+// // const Tab = createBottomTabNavigator();
+// //
+// // function MyTabs() {
+// //     return (
+// //         <Tab.Navigator
+// //             initialRouteName="Home"
+// //             screenOptions={{
+// //                 tabBarActiveTintColor: '#e91e63',
+// //             }}
+// //         >
+// //             <Tab.Screen
+// //                 name="Feed"
+// //                 component={Feed}
+// //                 options={{
+// //                     tabBarLabel: 'Home',
+// //                     tabBarIcon: ({color, size}) => (
+// //                         <MaterialCommunityIcons name="home" color={color} size={size}/>
+// //                     ),
+// //                 }}
+// //             />
+// //             <Tab.Screen
+// //                 name="Notifications"
+// //                 component={Notifications}
+// //                 options={{
+// //                     tabBarLabel: 'Updates',
+// //                     tabBarIcon: ({color, size}) => (
+// //                         <MaterialCommunityIcons name="bell" color={color} size={size}/>
+// //                     ),
+// //                     tabBarBadge: 3,
+// //                 }}
+// //             />
+// //             <Tab.Screen
+// //                 name="Profile"
+// //                 component={Profile}
+// //                 options={{
+// //                     tabBarLabel: 'Profile',
+// //                     tabBarIcon: ({color, size}) => (
+// //                         <MaterialCommunityIcons name="account" color={color} size={size}/>
+// //                     ),
+// //                 }}
+// //             />
+// //         </Tab.Navigator>
+// //     );
+// // }

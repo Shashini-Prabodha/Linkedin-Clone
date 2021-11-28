@@ -74,9 +74,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     logo: {
-        width: 90,
-        height: 65,
-        marginLeft: 25,
+        width: "49%",
+        height:"9%",
+        // marginRight:"48%",
+        marginLeft: '-6.5%',
 
     },
     body: {
