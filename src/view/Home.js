@@ -1,85 +1,104 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Image, FlatList,KeyboardAvoidingView} from 'react-native';
+import {Text, View, StyleSheet, Image, FlatList, KeyboardAvoidingView} from 'react-native';
 import {Searchbar, Avatar, IconButton} from 'react-native-paper';
 import HeaderSection from '../common/HeaderSection';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const DATA = [
     {
         id: 1,
-        title: "The Simpsons",
+        title: 'The Simpsons',
         year: 1989,
-        image: require("../assets/LinkedIn-Weekly-Invite-Limit-Blog-Image.png"),
+        image: require('../assets/sigiriya.jpg'),
     },
     {
         id: 2,
-        title: "SpongeBob SquarePants ",
+        title: 'SpongeBob SquarePants ',
         year: 1999,
-        image: require("../assets/LinkedIn-Weekly-Invite-Limit-Blog-Image.png"),
+        image: require('../assets/sigiriya.jpg'),
+
+
+    },
+    {
+        id: 3,
+        title: 'The Simpsons',
+        year: 1989,
+        image: require('../assets/sigiriya.jpg'),
+    },
+    {
+        id: 4,
+        title: 'SpongeBob SquarePants ',
+        year: 1999,
+        image: require('../assets/sigiriya.jpg'),
+
 
     },
 ];
 
-//
-// const DATA = [
-//     {
-//         id: '1',
-//         title: 'Data Structures',
-//     },
-//     {
-//         id: '2',
-//         title: 'STL',
-//     },
-//     {
-//         id: '3',
-//         title: 'C++',
-//     },
-//     {
-//         id: '4',
-//         title: 'Java',
-//     },
-//     {
-//         id: '5',
-//         title: 'Python',
-//     },
-//     {
-//         id: '6',
-//         title: 'CP',
-//     },
-//     {
-//         id: '7',
-//         title: 'ReactJs',
-//     },
-//
-// ];
+const renderItem = ({item, index}) => (
+    <View style={styles.card}>
+        <View style={styles.nameTag}>
 
-// const Item = ({title}) => {
-//     return (
-//         <View style={styles.item}>
-//             <Text>{title}</Text>
-//         </View>
-//     );
-// };
-
-//
-// const renderItem = ({item}) => (
-//     <Item title={item.title}/>
-// );
-
-
-const renderItem = ({ item, index }) => (
-    <View >
-        <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-
-            <Avatar.Image size={40} source={require('../assets/LinkedIn-Weekly-Invite-Limit-Blog-Image.png')}
+            <Avatar.Image size={40} source={require('../assets/1638183539829.jpg')}
                           style={styles.avatar}/>
+            <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
+            <View>
+                <Text style={styles.title}>{item.title} </Text>
+                <Text> {item.year}</Text>
+                <Text> 1m <Ionicons name="ellipse" size={5}></Ionicons> <Ionicons name="globe-outline"></Ionicons>
+                </Text>
+                <Image
+                    source={require('../assets/menu_vertical_64px.png')}
+                    resizeMode="contain"
+                    style={styles.dots}>
+                </Image>
+            </View>
         </View>
-        <Text style={styles.title}>{item.title} </Text>
-        <Text> {item.year}</Text>
-        <Image
-            style={{ height: 300, width: 300}}
-            source={item.image}
-            resizeMode="contain"
-        />
+
+
+        <Text style={styles.picCaption}>Picture Title</Text>
+
+        <View style={styles.cardBody}>
+            <Image
+                style={styles.cimg}
+                source={item.image}
+                resizeMode="contain"
+            />
+        </View>
+
+        <View style={styles.cardFooter}>
+
+            <IconButton
+                style={styles.icon}
+                icon="thumb-up"
+                color="#95a5a6"
+                size={20}
+                onPress={() => console.log('Pressed')}
+                accessibilityLabel="like"
+            />
+            <IconButton
+                style={styles.icon}
+                icon="comment"
+                color="#95a5a6"
+                size={20}
+                onPress={() => console.log('Pressed')}
+            />
+            <IconButton
+                style={styles.icon}
+                icon="share"
+                color="#95a5a6"
+                size={22}
+                onPress={() => console.log('Pressed')}
+            />
+            <IconButton
+                style={styles.icon}
+                icon="telegram"
+                color="#95a5a6"
+                size={22}
+                onPress={() => console.log('Pressed')}
+            />
+        </View>
+
     </View>
 );
 
@@ -87,7 +106,7 @@ class Home extends Component {
 
     render() {
         return (
-            <KeyboardAvoidingView style={styles.container}>
+            <View style={styles.container}>
                 <View style={styles.header}>
                     <HeaderSection></HeaderSection>
                 </View>
@@ -101,16 +120,8 @@ class Home extends Component {
                     />
                 </View>
 
-                {/*<View style={styles.container}>*/}
-                {/*    <FlatList*/}
-                {/*        data={DATA}*/}
-                {/*        renderItem={renderItem}*/}
-                {/*        keyExtractor={item => item.id}*/}
-                {/*    />*/}
-                {/*</View>*/}
 
-
-            </KeyboardAvoidingView>
+            </View>
         );
     }
 }
@@ -121,6 +132,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: '0%',
+        // backgroundColor:'#e7e7e7',
     },
     header: {
         margin: 0,
@@ -130,10 +142,68 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: '11%',
     },
-    item: {
-        backgroundColor: '#f5f520',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
+    // item: {
+    //     backgroundColor: '#f5f520',
+    //     padding: 20,
+    //     marginVertical: 8,
+    //     marginHorizontal: 16,
+    // },
+    card: {
+        width: '100%',
+        backgroundColor: '#ffffff',
+        marginTop: 12,
+        height: 430,
+        alignContent: 'center',
+        justifyContent: 'center',
+    },
+    avatar: {
+        marginRight: '2%',
+    },
+    title: {
+        fontWeight: 'bold',
+    },
+    dots: {
+        height: '20%',
+        marginTop: '-12%',
+        marginLeft: '80%',
+    },
+    nameTag: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        marginTop: '-3%',
+        marginLeft: '2.5%',
+    },
+    online: {
+        marginTop: '6%',
+        marginLeft: '-4%',
+        borderWidth: 1,
+        borderRadius: 50,
+        borderColor: '#ffffff',
+    },
+    cardBody: {
+        margin: '0%',
+
+    },
+    picCaption: {
+        color: '#000000',
+        marginTop: '-8%',
+        marginLeft: '4%',
+    },
+    cimg: {
+        width: 412,
+        height: 400,
+        marginTop: '-15%',
+        marginBottom: '0%',
+
+    },
+    cardFooter: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        marginTop: '-18%',
+
+    },
+    icon: {
+        marginLeft: '10%',
+        marginRight: '5%',
     },
 });
