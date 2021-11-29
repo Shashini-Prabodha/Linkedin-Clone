@@ -28,7 +28,7 @@ class SignIn extends Component {
     };
 
     Continue = () => {
-        this.props.navigation.navigate('SignIn');
+        this.props.navigation.navigate('Home');
     };
 
     onGoogleButtonPress = async () => {
@@ -102,7 +102,7 @@ class SignIn extends Component {
                 </Text>
                 <View style={styles.body}>
 
-                    <TouchableOpacity style={styles.btnCont} mode="contained" onPress={this.JoinNow}>
+                    <TouchableOpacity style={styles.btnCont} mode="contained" onPress={this.Continue}>
                         <Text style={styles.text}>Continue</Text>
                     </TouchableOpacity>
 
