@@ -26,29 +26,7 @@ export default class LoginPage extends Component {
     }
 
     JoinNow = () => {
-
         this.props.navigation.navigate('AddEmailPw');
-
-
-        // auth()
-        // .signInWithEmailAndPassword(this.state.email, this.state.password)
-        // .then(() => {
-        //     console.log('User Loged in!');
-        //     // createUser.user.updateProfile({
-        //     //     displayName: this.state.username
-        //     // })
-        // })
-        // .catch(error => {
-        //     if (error.code === 'auth/email-already-in-use') {
-        //         console.log('That email address is already in use!');
-        //     }
-
-        //     if (error.code === 'auth/invalid-email') {
-        //         console.log('That email address is invalid!');
-        //     }
-
-        //     console.error(error);
-        // });
     };
 
     SignIn = () => {

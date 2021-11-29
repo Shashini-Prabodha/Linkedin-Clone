@@ -1,8 +1,20 @@
 import React, {Component} from 'react';
-import {Image, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+    Alert,
+    Image,
+    KeyboardAvoidingView,
+    LogBox,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    YellowBox,
+} from 'react-native';
 
 import {InputTextField} from '../../common/InputTextField';
 import PasswordInputText from 'react-native-hide-show-password-input';
+import auth from '@react-native-firebase/auth';
+import {TextInput} from 'react-native-paper';
 
 export default class AddEmailPw extends Component {
     constructor(props) {
@@ -14,8 +26,39 @@ export default class AddEmailPw extends Component {
     }
 
     JoinNow = () => {
-        this.props.navigation.navigate('AddDetails');
+        console.log(this.state.email + ' - ' + this.state.password);
+
+        auth()
+
+            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(() => {
+                console.log('User Loged in!');
+                // createUser.user.updateProfile({
+                //     displayName: this.state.username
+                // })
+                this.props.navigation.navigate('AddDetails');
+
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                    Alert.alert('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                    Alert.alert('That email address is invalid!');
+
+                }
+
+                console.error(error);
+            });
     };
+
+    componentDidMount() {
+        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+    }
+
     render() {
         return (
             <KeyboardAvoidingView style={styles.container}>
@@ -28,13 +71,26 @@ export default class AddEmailPw extends Component {
                 <Text style={styles.title}>Set your email & password</Text>
 
                 <View style={styles.body}>
-                    <InputTextField placeHolder="" label={'Email*'}
-                                    value={this.state.email}
-                                    activeUnderlineColor={'#0984e3'}
-                                    UnderlineColor={'#cdcdcd'}
-                                    onChangeText={text => this.setState(
-                                        {email: text},
-                                    )}
+                    {/*<InputTextField placeHolder="" label={'Email*'}*/}
+                    {/*                value={this.state.email}*/}
+                    {/*                activeUnderlineColor={'#0984e3'}*/}
+                    {/*                UnderlineColor={'#cdcdcd'}*/}
+                    {/*                onChangeText={text => this.setState(*/}
+                    {/*                    {email: text},*/}
+                    {/*                )}*/}
+
+                    {/*/>*/}
+                    <TextInput
+                        placeHolder=""
+                        label={'Email*'}
+                        style={styles.input}
+                        value={this.state.email}
+                        activeUnderlineColor={'#0984e3'}
+                        UnderlineColor={'#cdcdcd'}
+                        onChangeText={text => this.setState(
+                            {email: text},
+                        )}
+
                     />
                     <PasswordInputText
                         style={styles.input}
@@ -45,11 +101,13 @@ export default class AddEmailPw extends Component {
                     <Text style={styles.txtP}>6 or more characters</Text>
 
 
-                    <View style={{marginTop:10,marginBottom:10}}>
+                    <View style={{marginTop: 10, marginBottom: 10}}>
                         <Text style={styles.txt2}>By clicking Agree & Join, you agree to the LinkedIn</Text>
-                        <Text style={{color:"#0874c7", marginTop:-18, marginLeft:275, fontWeight:'bold'}}>User</Text>
-                        <Text style={{color:"#0874c7", fontWeight:'bold'}}>Agreement, Privacy Policy, and Cookie Policy.</Text>
-                        <Text  style={{marginTop:-19, marginLeft:290,}}> For phone </Text>
+                        <Text
+                            style={{color: '#0874c7', marginTop: -18, marginLeft: 275, fontWeight: 'bold'}}>User</Text>
+                        <Text style={{color: '#0874c7', fontWeight: 'bold'}}>Agreement, Privacy Policy, and Cookie
+                            Policy.</Text>
+                        <Text style={{marginTop: -19, marginLeft: 290}}> For phone </Text>
                         <Text>number signups we will sent a verification code via SMS</Text>
                     </View>
 
@@ -59,9 +117,9 @@ export default class AddEmailPw extends Component {
 
                 </View>
 
-    </KeyboardAvoidingView>
-    )
-        ;
+            </KeyboardAvoidingView>
+        )
+            ;
     }
 }
 
@@ -74,8 +132,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     logo: {
-        width: "49%",
-        height:"9%",
+        width: '49%',
+        height: '9%',
         // marginRight:"48%",
         marginLeft: '-6.5%',
 
@@ -123,8 +181,8 @@ const styles = StyleSheet.create({
     txtP: {
         fontSize: 12,
         color: '#757575',
-marginLeft:-250,
-        marginBottom:10
+        marginLeft: -250,
+        marginBottom: 10,
     },
     txt2: {
         fontSize: 12,
