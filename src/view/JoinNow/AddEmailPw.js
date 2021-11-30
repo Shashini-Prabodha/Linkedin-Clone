@@ -21,92 +21,104 @@ export default class AddEmailPw extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
-            emailError:false,
-            passwordError:false,
+            email: null,
+            password: null,
+            emailError: false,
+            passwordError: false,
         };
     }
+
     firstNameValidation = (text) => {
         let userNameRegex = /^[a-zA-Z ]{2,40}$/;
         if (userNameRegex.test(text) === false) {
-            this.setState({firstName: text})
+            this.setState({firstName: text});
             return false;
         } else {
-            this.setState({firstName: text})
+            this.setState({firstName: text});
         }
     };
 
     lastNameValidation = (text) => {
         let userNameRegex = /^[a-zA-Z ]{2,40}$/;
         if (userNameRegex.test(text) === false) {
-            this.setState({lastName: text})
+            this.setState({lastName: text});
             return false;
         } else {
-            this.setState({lastName: text})
+            this.setState({lastName: text});
         }
     };
 
     emailValidation = (text) => {
         let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if (emailRegex.test(text) === false) {
-            this.setState({email: text})
+            this.setState({email: text});
             this.setState({emailError: true});
+            console.log("1")
+
             return false;
         } else {
-            this.setState({email: text})
+            this.setState({email: text});
             this.setState({emailError: false});
+            console.log("2")
+
         }
     };
 
     passwordValidation = (text) => {
         let pwReg = /^(?=.*[a-zA-Z0-9!@#\$%\^&\*])(?=.{6,})/;
         if (pwReg.test(text) === false) {
-            this.setState({password: text})
+            this.setState({password: text});
             this.setState({passwordError: true});
 
             return false;
         } else {
-            this.setState({password: text})
+            this.setState({password: text});
             this.setState({passwordError: false});
 
         }
     };
 
 
-    JoinNow =  () => {
+    JoinNow = () => {
         console.log(this.state.email + ' - ' + this.state.password);
+        // if (this.state.email == null | this.state.password == null | this.state.email == '' |this.state.password == null |) {
+console.log(this.state.emailError +"  "+ this.state.passwordError);
+        console.log("1  => "+true && false);
 
-        auth()
+        // if((this.state.emailError && this.state.passwordError)) {
+            auth()
 
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(async () => {
-                console.log('User Loged in!');
-                // createUser.user.updateProfile({
-                //     displayName: this.state.username
-                // })
-                await AsyncStorage.setItem('email', this.state.email);
-                await AsyncStorage.setItem('password', this.state.password);
+                .createUserWithEmailAndPassword(this.state.email, this.state.password)
+                .then(async () => {
+                    console.log('User Loged in!');
+                    // createUser.user.updateProfile({
+                    //     displayName: this.state.username
+                    // })
+                    await AsyncStorage.setItem('email', this.state.email);
+                    await AsyncStorage.setItem('password', this.state.password);
 
-                this.props.navigation.navigate('AddDetails');
+                    this.props.navigation.navigate('AddName');
 
-            })
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    console.log('That email address is already in use!');
-                    Alert.alert('That email address is already in use!');
-                }
+                })
+                .catch(error => {
+                    if (error.code === 'auth/email-already-in-use') {
+                        console.log('That email address is already in use!');
+                        Alert.alert('That email address is already in use!');
+                    }
 
-                if (error.code === 'auth/invalid-email') {
-                    console.log('That email address is invalid!');
-                    Alert.alert('That email address is invalid!');
+                    if (error.code === 'auth/invalid-email') {
+                        console.log('That email address is invalid!');
+                        Alert.alert('That email address is invalid!');
 
-                }
+                    }
 
-                console.error(error);
-            });
+                    console.error(error);
+                });
+        // }else{
+        //     Alert.alert('Email or Password can\'t be empty')
+        //
+        // }
     };
-
 
 
     componentDidMount() {
@@ -155,7 +167,8 @@ export default class AddEmailPw extends Component {
                         value={this.state.password}
                         onChangeText={text => this.passwordValidation(text)}
                     />
-                    {this.state.passwordError ? <Text style={styles.txtP1}>6 or more characters</Text> : <Text style={styles.txtP}>6 or more characters</Text>}
+                    {this.state.passwordError ? <Text style={styles.txtP1}>6 or more characters</Text> :
+                        <Text style={styles.txtP}>6 or more characters</Text>}
 
 
                     <View style={{marginTop: 10, marginBottom: 10}}>
@@ -251,9 +264,9 @@ const styles = StyleSheet.create({
         fontSize: 12,
 
     },
-    ErrorTxt:{
-        fontSize:12,
-        marginLeft:'-64%',
-        color:'#ff0000'
-    }
+    ErrorTxt: {
+        fontSize: 12,
+        marginLeft: '-64%',
+        color: '#ff0000',
+    },
 });

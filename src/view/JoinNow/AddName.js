@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Image, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import {InputTextField} from '../../common/InputTextField';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {TextInput} from 'react-native-paper';
 
 export default class AddName extends Component {
     constructor(props) {
@@ -11,6 +13,26 @@ export default class AddName extends Component {
             lname: '',
         };
     }
+
+
+    Continue = () => {
+        console.log(this.state.fname);
+
+        this.storeData();
+        this.props.navigation.navigate('AddDetails');
+    };
+
+    storeData = async () => {
+        try {
+            console.log('in' + this.state.fname);
+            await AsyncStorage.setItem('firstName', this.state.fname);
+            await AsyncStorage.setItem('lastName', this.state.lname);
+        } catch (e) {
+
+        }
+
+
+    };
 
     render() {
         return (
@@ -24,26 +46,29 @@ export default class AddName extends Component {
                 <Text style={styles.title}>Add your name</Text>
 
                 <View style={styles.body}>
-                    <InputTextField placeHolder="" label={'First Name*'}
-                                    value={this.state.fname}
-                                    activeUnderlineColor={'#0984e3'}
-                                    UnderlineColor={'#cdcdcd'}
-                                    onChangeText={text => this.setState(
-                                        {fname: text},
-                                    )}
+                    <TextInput placeHolder="" label={'First Name*'}
+                               value={this.state.fname}
+                               activeUnderlineColor={'#0984e3'}
+                               UnderlineColor={'#cdcdcd'}
+                               style={styles.input}
+
+                               onChangeText={text => this.setState(
+                                   {fname: text},
+                               )}
                     />
-                    <InputTextField placeHolder="" label={'Last Name*'}
-                                    value={this.state.lname}
-                                    activeUnderlineColor={'#0984e3'}
-                                    UnderlineColor={'#cdcdcd'}
-                                    onChangeText={text => this.setState(
-                                        {lname: text},
-                                    )}
+                    <TextInput placeHolder="" label={'Last Name*'}
+                               value={this.state.lname}
+                               activeUnderlineColor={'#0984e3'}
+                               UnderlineColor={'#cdcdcd'}
+                               style={styles.input}
+
+                               onChangeText={text => this.setState(
+                                   {lname: text},
+                               )}
                     />
 
 
-
-                    <TouchableOpacity style={styles.btnCont} mode="contained" onPress={this.JoinNow}>
+                    <TouchableOpacity style={styles.btnCont} mode="contained" onPress={this.Continue}>
                         <Text style={styles.text}>Continue</Text>
                     </TouchableOpacity>
 
@@ -99,5 +124,13 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: 'white',
         fontWeight: 'bold',
+    },
+    input: {
+        width: 360,
+        marginTop: '5%',
+        backgroundColor: 'white',
+        color: 'black',
+        marginBottom:'12%',
+        borderEndColor: 'red',
     },
 });

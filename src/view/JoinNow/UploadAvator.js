@@ -4,6 +4,7 @@ import {Image, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} f
 import {InputTextField} from '../../common/InputTextField';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import * as ImagePicker from 'react-native-image-crop-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class UploadAvator extends Component {
     constructor(props) {
@@ -11,14 +12,44 @@ export default class UploadAvator extends Component {
         this.state = {
             location: '',
             password: '',
+            fname: 'kamla',
+            lname: '',
+            job: '',
         };
     }
+
+    getData = async () => {
+        try {
+            const fname = await AsyncStorage.getItem('firstName');
+            const lname = await AsyncStorage.getItem('lastName');
+            const job = await AsyncStorage.getItem('job');
+
+            this.setState({fname: fname});
+            this.setState({lname: lname});
+            this.setState({job: job});
+
+        } catch (e) {
+            // error reading value
+        }
+    };
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    //
+    // Next = async () => {
+    //     await AsyncStorage.setItem('email', this.state.email);
+    //     await AsyncStorage.setItem('password', this.state.password);
+    //
+    //     this.props.navigation.navigate('UploadAvator');
+    // };
 
     AddPhoto = () => {
         ImagePicker.openPicker({
             width: 300,
             height: 400,
-            cropping: true
+            cropping: true,
         }).then(image => {
             console.log(image);
         });
@@ -26,6 +57,10 @@ export default class UploadAvator extends Component {
 
     Skip = () => {
         this.props.navigation.navigate('Home');
+    };
+
+    updateText = () => {
+        this.setState({fname: 'My Changed Text'});
     };
 
     render() {
@@ -47,8 +82,8 @@ export default class UploadAvator extends Component {
                             style={styles.camera}>
                         </Image>
                     </View>
-                    <Text style={styles.txtName}>Your Name</Text>
-                    <Text style={styles.txtJob}>Your Job Title Text</Text>
+                    <Text style={styles.txtName} onPress={this.updateText}>{this.state.fname} {this.state.lname}</Text>
+                    <Text style={styles.txtJob}>{this.state.job}</Text>
 
                 </View>
 
