@@ -28,7 +28,7 @@ class SignIn extends Component {
     };
 
     Continue = () => {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Navigation');
     };
 
     onGoogleButtonPress = async () => {

@@ -1,288 +1,118 @@
-// import React from 'react';
-// import {StyleSheet, Image, Text} from 'react-native';
-// import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-// import {createStackNavigator} from '@react-navigation/stack';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-//
-// // import LottieView from 'lottie-react-native';
-//
-// import Icon from 'react-native-vector-icons/Ion icons';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-//
-// import HomeScreen from './Home';
-// import MyNetoworkScreen from './MyNetowork';
-// import PostPageScreen from './PostPage';
-// import NotificationScreen from './Notification';
-// import JobsPageScreen from './JobsPage';
-//
-//
-// const HomeStack = createStackNavigator();
-// const MyNetoworkStack = createStackNavigator();
-// const PostPageStack = createStackNavigator();
-// const NotificationStack = createStackNavigator();
-// const JobsPageStack = createStackNavigator();
-//
-//
-// const Tab = createMaterialBottomTabNavigator();
-//
-// const MainTabScreen = () => (
-//
-//     <Tab.Navigator
-//         initialRouteName="Home"
-//         activeColor="#fff"
-//     >
-//         <Tab.Screen
-//             name="Home"
-//             component={HomeStackScreen}
-//             options={{
-//                 tabBarLabel: 'Home',
-//                 tabBarColor: '#AA2EE6',
-//                 tabBarIcon: ({color}) => (
-//                     <Image
-//                         source={require('../assets/google_96px.png')}
-//                         resizeMode="contain"
-//                         style={styles.icon}></Image>
-//
-//                 ),
-//             }}
-//         />
-//         <Tab.Screen
-//             name="MyNetowork"
-//             component={MyNetoworkStackScreen}
-//             options={{
-//                 tabBarLabel: 'MyNetowork',
-//                 tabBarColor: '#d02860',
-//                 tabBarIcon: ({color}) => (
-//                     <Image
-//                         source={require('../assets/google_96px.png')}
-//
-//                         resizeMode="contain"
-//                         style={styles.icon}></Image>
-//                 ),
-//             }}
-//         />
-//         {/*<Tab.Screen*/}
-//         {/*    name="PostPage"*/}
-//         {/*    component={PostPageStackScreen}*/}
-//         {/*    options={{*/}
-//         {/*        tabBarLabel: 'Post',*/}
-//         {/*        tabBarColor: '#1f65ff',*/}
-//         {/*        tabBarIcon: ({color}) => (*/}
-//         {/*            <Image*/}
-//         {/*                source={require('../assets/google_96px.png')}*/}
-//
-//         {/*                resizeMode="contain"*/}
-//         {/*                style={styles.icon}></Image>*/}
-//         {/*        ),*/}
-//         {/*    }}*/}
-//         {/*/>*/}
-//         <Tab.Screen
-//             name="Notification"
-//             component={NotificationStackScreen}
-//             options={{
-//                 tabBarLabel: 'Notification',
-//                 tabBarColor: '#0fb9b1',
-//                 tabBarIcon: ({color}) => (
-//                     <Image
-//                         source={require('../assets/google_96px.png')}
-//
-//                         resizeMode="contain"
-//                         style={styles.icon}></Image>
-//                 ),
-//             }}
-//         />
-//         <Tab.Screen
-//             name="Jobs"
-//             component={JobsPageStackScreen}
-//             options={{
-//                 tabBarLabel: 'Jobs',
-//                 tabBarColor: '#0fb9b1',
-//                 tabBarIcon: ({color}) => (
-//                     <Image
-//                         source={require('../assets/google_96px.png')}
-//
-//                         resizeMode="contain"
-//                         style={styles.icon}></Image>
-//                 ),
-//             }}
-//         />
-//     </Tab.Navigator>
-// );
-//
-// export default MainTabScreen;
-//
-// const HomeStackScreen = ({navigation}) => (
-//     <HomeStack.Navigator screenOptions={{
-//         headerStyle: {
-//             backgroundColor: '#a55eea',
-//         },
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//             fontWeight: 'bold',
-//         },
-//     }}>
-//         <HomeStack.Screen name="My Wallet" component={HomeScreen} options={{
-//             title: 'Home',
-//             headerLeft: () => (
-//                 <LottieView style={styles.icon1}
-//                             source={require('../assets/newwallet.json')}
-//                             colorFilters={[{
-//                                 keypath: 'button',
-//                                 color: '#F00000',
-//                             }, {
-//                                 keypath: 'Sending Loader',
-//                                 color: '#F00000',
-//                             }]}
-//                             autoPlay
-//                             loop
-//                 />
-//
-//             ),
-//         }}/>
-//     </HomeStack.Navigator>
-// );
-//
-// const MyNetoworkStackScreen = ({navigation}) => (
-//     <MyNetoworkStack.Navigator screenOptions={{
-//         headerStyle: {
-//             backgroundColor: '#d02860',
-//         },
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//             fontWeight: 'bold',
-//         },
-//     }}>
-//         <MyNetoworkStack.Screen name="MyNetowork" component={MyNetoworkScreen} options={{
-//             headerLeft: () => (
-// //<Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
-//                 <Icon></Icon>
-//             ),
-//         }}/>
-//     </MyNetoworkStack.Navigator>
-// );
-// //
-// // const PostPageStackScreen = ({navigation}) => (
-// //     <PostPageStack.Navigator screenOptions={{
-// //         headerStyle: {
-// //             backgroundColor: '#1f65ff',
-// //         },
-// //         headerTintColor: '#fff',
-// //         headerTitleStyle: {
-// //             fontWeight: 'bold',
-// //         },
-// //     }}>
-// //         <PostPageStack.Screen name="PostPage" component={PostPageScreen} options={{
-// //             headerLeft: () => (
-// // //<Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
-// //                 <Icon></Icon>
-// //             ),
-// //         }}/>
-// //     </PostPageStack.Navigator>
-// // );
-//
-// const NotificationStackScreen = ({navigation}) => (
-//     <NotificationStack.Navigator screenOptions={{
-//         headerStyle: {
-//             backgroundColor: '#0fb9b1',
-//         },
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//             fontWeight: 'bold',
-//         },
-//     }}>
-//         <NotificationStack.Screen name="Notification" component={NotificationScreen} options={{
-//
-//             headerLeft: () => (
-// //<Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
-//                 <Icon></Icon>
-//
-//
-//             ),
-//         }}/>
-//     </NotificationStack.Navigator>
-// );
-//
-// const JobsPageStackScreen = ({navigation}) => (
-//     <JobsPageStack.Navigator screenOptions={{
-//         headerStyle: {
-//             backgroundColor: '#0fb9b1',
-//         },
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//             fontWeight: 'bold',
-//         },
-//     }}>
-//         <JobsPageStack.Screen name="Jobs" component={JobsPageScreen} options={{
-//
-//             headerLeft: () => (
-// //<Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
-//                 <Icon></Icon>
-//
-//
-//             ),
-//         }}/>
-//     </JobsPageStack.Navigator>
-// );
-//
-// const styles = StyleSheet.create({
-//     icon: {
-//         width: 26,
-//         height: 30,
-//
-//     },
-//     icon1: {
-//         width: 50,
-//         height: 35,
-//         left: 8,
-//     },
-//
-// });
-//
-// //
-// // import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-// // import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// //
-// // const Tab = createBottomTabNavigator();
-// //
-// // function MyTabs() {
-// //     return (
-// //         <Tab.Navigator
-// //             initialRouteName="Home"
-// //             screenOptions={{
-// //                 tabBarActiveTintColor: '#e91e63',
-// //             }}
-// //         >
-// //             <Tab.Screen
-// //                 name="Feed"
-// //                 component={Feed}
-// //                 options={{
-// //                     tabBarLabel: 'Home',
-// //                     tabBarIcon: ({color, size}) => (
-// //                         <MaterialCommunityIcons name="home" color={color} size={size}/>
-// //                     ),
-// //                 }}
-// //             />
-// //             <Tab.Screen
-// //                 name="Notifications"
-// //                 component={Notifications}
-// //                 options={{
-// //                     tabBarLabel: 'Updates',
-// //                     tabBarIcon: ({color, size}) => (
-// //                         <MaterialCommunityIcons name="bell" color={color} size={size}/>
-// //                     ),
-// //                     tabBarBadge: 3,
-// //                 }}
-// //             />
-// //             <Tab.Screen
-// //                 name="Profile"
-// //                 component={Profile}
-// //                 options={{
-// //                     tabBarLabel: 'Profile',
-// //                     tabBarIcon: ({color, size}) => (
-// //                         <MaterialCommunityIcons name="account" color={color} size={size}/>
-// //                     ),
-// //                 }}
-// //             />
-// //         </Tab.Navigator>
-// //     );
-// // }
+//Alpha-X-Software-Company
+//Mindula-Dilthushan-Manamperi
+//LinkedIn-Clone-v1.0.0
+import React, {Component} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+//View Screens ---------------------------------------------------------------------------------------------------------
+import Home from './Home';
+import MyNetwork from './MyNetowork';
+import Post from './PostPage';
+import Notification from './Notification';
+import Job from './JobsPage';
+import {LogBox} from 'react-native';
+
+//Tab Navigator --------------------------------------------------------------------------------------------------------
+const Tab = createMaterialBottomTabNavigator();
+
+export default class Navigation extends Component {
+
+    constructor() {
+        super();
+        console.disableYellowBox = true;
+    }
+
+    componentDidMount() {
+        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+    }
+
+    render() {
+        return (
+            <NavigationContainer
+                independent={true}
+            >
+
+                {/*Tab Screens --------------------------------------------------------------------------------------*/}
+                <Tab.Navigator
+                    initialRouteName="home"
+                    activeColor="#2f3640"
+                    inactiveColor="#596275"
+                    barStyle={[{backgroundColor: '#f5f6fa'}]}
+                    shifting="true"
+                    screenOptions={({route, navigation}) => ({
+                        headerShown: false,
+                        gestureEnabled: true,
+                        cardOverlayEnabled: true,
+                        gestureDirection: 'horizontal',
+                    })}
+                >
+                    {/*Home Screen Section --------------------------------------------------------------------------*/}
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'Home',
+                            tabBarIcon: ({color}) => (
+                                <Icon name="home" color={color} size={25}/>
+                            ),
+                        }}
+                        name="Home"
+                        component={Home}
+                    />
+
+                    {/*My Network Screen Section --------------------------------------------------------------------*/}
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'My Network',
+                            tabBarIcon: ({color}) => (
+                                <MaterialIcons name="group" color={color} size={25}/>
+                            ),
+                        }}
+                        name="My Network"
+                        component={MyNetwork}
+                    />
+
+                    {/*Post Screen Section --------------------------------------------------------------------------*/}
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'Post',
+                            tabBarIcon: ({color}) => (
+                                <Icon name="plus-square" color={color} size={25}/>
+                            ),
+                        }}
+                        name="Post"
+                        component={Post}
+                    />
+
+                    {/*Notification Screen Section ------------------------------------------------------------------*/}
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'Notificaion',
+                            tabBarIcon: ({color}) => (
+                                <Ionicons name="ios-notifications" color={color} size={25}/>
+                            ),
+                        }}
+                        name="Notificaion"
+                        component={Notification}
+                    />
+
+                    {/*Job Screen Section ---------------------------------------------------------------------------*/}
+                    <Tab.Screen
+                        options={{
+                            tabBarLabel: 'Job',
+                            tabBarIcon: ({color}) => (
+                                <MaterialIcons name="business-center" color={color} size={25}/>
+                            ),
+                        }}
+                        name="Job"
+                        component={Job}
+                    />
+
+                </Tab.Navigator>
+            </NavigationContainer>
+        );
+    }
+
+}

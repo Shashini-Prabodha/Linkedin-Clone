@@ -8,7 +8,6 @@ import {
     Text,
     TouchableOpacity,
     View,
-    YellowBox,
 } from 'react-native';
 
 import {InputTextField} from '../../common/InputTextField';
