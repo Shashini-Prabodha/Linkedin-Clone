@@ -3,6 +3,7 @@ import {Image, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} f
 
 import {InputTextField} from '../../common/InputTextField';
 import PasswordInputText from 'react-native-hide-show-password-input';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class AddDetails extends Component {
     constructor(props) {
@@ -11,6 +12,19 @@ export default class AddDetails extends Component {
             location: '',
             password: '',
         };
+    }
+    getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('email')
+            if (value !== null) {
+                console.log(value)
+            }
+        } catch (e) {
+            // error reading value
+        }
+    }
+    componentDidMount() {
+        this.getData();
     }
 
     Next = () => {

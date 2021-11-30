@@ -9,11 +9,13 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {InputTextField} from '../../common/InputTextField';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import auth from '@react-native-firebase/auth';
 import {TextInput} from 'react-native-paper';
+
 
 export default class AddEmailPw extends Component {
     constructor(props) {
@@ -21,20 +23,71 @@ export default class AddEmailPw extends Component {
         this.state = {
             email: '',
             password: '',
+            emailError:false,
+            passwordError:false,
         };
     }
+    firstNameValidation = (text) => {
+        let userNameRegex = /^[a-zA-Z ]{2,40}$/;
+        if (userNameRegex.test(text) === false) {
+            this.setState({firstName: text})
+            return false;
+        } else {
+            this.setState({firstName: text})
+        }
+    };
 
-    JoinNow = () => {
+    lastNameValidation = (text) => {
+        let userNameRegex = /^[a-zA-Z ]{2,40}$/;
+        if (userNameRegex.test(text) === false) {
+            this.setState({lastName: text})
+            return false;
+        } else {
+            this.setState({lastName: text})
+        }
+    };
+
+    emailValidation = (text) => {
+        let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (emailRegex.test(text) === false) {
+            this.setState({email: text})
+            this.setState({emailError: true});
+            return false;
+        } else {
+            this.setState({email: text})
+            this.setState({emailError: false});
+        }
+    };
+
+    passwordValidation = (text) => {
+        let pwReg = /^(?=.*[a-zA-Z0-9!@#\$%\^&\*])(?=.{6,})/;
+        if (pwReg.test(text) === false) {
+            this.setState({password: text})
+            this.setState({passwordError: true});
+
+            return false;
+        } else {
+            this.setState({password: text})
+            this.setState({passwordError: false});
+
+        }
+    };
+
+
+    JoinNow =  () => {
         console.log(this.state.email + ' - ' + this.state.password);
 
         auth()
 
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(() => {
+            .then(async () => {
                 console.log('User Loged in!');
                 // createUser.user.updateProfile({
                 //     displayName: this.state.username
                 // })
+                await AsyncStorage.setItem('email', this.state.email);
+                await AsyncStorage.setItem('password', this.state.password);
+
                 this.props.navigation.navigate('AddDetails');
 
             })
@@ -53,6 +106,8 @@ export default class AddEmailPw extends Component {
                 console.error(error);
             });
     };
+
+
 
     componentDidMount() {
         LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
@@ -86,18 +141,21 @@ export default class AddEmailPw extends Component {
                         value={this.state.email}
                         activeUnderlineColor={'#0984e3'}
                         UnderlineColor={'#cdcdcd'}
-                        onChangeText={text => this.setState(
-                            {email: text},
-                        )}
+                        onChangeText={text =>
+                            // {email: text},
+                            this.emailValidation(text)
+                        }
 
                     />
+                    {this.state.emailError ? <Text style={styles.ErrorTxt}> Invalid Email Address </Text> : <></>}
+
                     <PasswordInputText
                         style={styles.input}
                         getRef={input => this.input = input}
                         value={this.state.password}
-                        onChangeText={text => this.setState({password: text})}
+                        onChangeText={text => this.passwordValidation(text)}
                     />
-                    <Text style={styles.txtP}>6 or more characters</Text>
+                    {this.state.passwordError ? <Text style={styles.txtP1}>6 or more characters</Text> : <Text style={styles.txtP}>6 or more characters</Text>}
 
 
                     <View style={{marginTop: 10, marginBottom: 10}}>
@@ -183,8 +241,19 @@ const styles = StyleSheet.create({
         marginLeft: -250,
         marginBottom: 10,
     },
+    txtP1: {
+        fontSize: 12,
+        color: '#ff0000',
+        marginLeft: -250,
+        marginBottom: 10,
+    },
     txt2: {
         fontSize: 12,
 
     },
+    ErrorTxt:{
+        fontSize:12,
+        marginLeft:'-64%',
+        color:'#ff0000'
+    }
 });

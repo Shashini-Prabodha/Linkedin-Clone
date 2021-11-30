@@ -2,7 +2,7 @@ import * as React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-paper';
 
-export function InputTextField({placeHolder,label}) {
+export function InputTextField({placeHolder,label,onChangeSet}) {
     return (
         <View style={styles.body}>
             <TextInput
@@ -11,6 +11,7 @@ export function InputTextField({placeHolder,label}) {
                 placeholder={placeHolder}
                 activeUnderlineColor={'#0984e3'}
                 UnderlineColor={'#cdcdcd'}
+                onChange={onChangeSet}
 
 
             />
