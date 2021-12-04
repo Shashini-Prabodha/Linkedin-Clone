@@ -69,6 +69,7 @@ this.getAvatar();
             });
     }
 
+    
     componentDidMount() {
         console.log("in data 0");
 
