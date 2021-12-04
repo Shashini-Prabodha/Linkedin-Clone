@@ -3,6 +3,8 @@ import {Text, View, StyleSheet, Image, FlatList, KeyboardAvoidingView} from 'rea
 import {Searchbar, Avatar, IconButton} from 'react-native-paper';
 import HeaderSection from '../common/HeaderSection';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const DATA = [
     {
@@ -30,10 +32,9 @@ const DATA = [
         title: 'SpongeBob SquarePants ',
         year: 1999,
         image: require('../assets/sigiriya.jpg'),
-
-
     },
 ];
+
 
 const renderItem = ({item, index}) => (
     <View style={styles.card}>
@@ -102,7 +103,36 @@ const renderItem = ({item, index}) => (
     </View>
 );
 
+
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fname: '',
+            lname: '',
+            job: '',
+            status: false,
+        };
+    }
+
+    getData = async () => {
+        try {
+            const fname = await AsyncStorage.getItem('firstName');
+            const lname = await AsyncStorage.getItem('lastName');
+            const job = await AsyncStorage.getItem('job');
+
+            this.setState({fname: fname});
+            this.setState({lname: lname});
+            this.setState({job: job});
+
+        } catch (e) {
+            // error reading value
+        }
+    };
+
+    componentDidMount() {
+        this.getData();
+    }
 
     render() {
         return (

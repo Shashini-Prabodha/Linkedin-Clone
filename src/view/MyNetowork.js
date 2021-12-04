@@ -1,14 +1,41 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, ScrollView, StyleSheet} from 'react-native';
+import HeaderSection from '../common/HeaderSection';
 
 class MyNetowork extends Component {
     render() {
         return (
-            <Text>
-                MyNetwork
-            </Text>
+            <ScrollView style={styles.container}>
+           <View >
+<HeaderSection></HeaderSection>
+           </View>
+                <View style={styles.title}>
+                    <Text style={styles.text1}>Manage my network</Text>
+                </View>
+            </ScrollView>
         );
     }
 }
 
 export default MyNetowork;
+
+const styles = StyleSheet.create({
+
+    container: {
+        flex: 1,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // backgroundColor: 'white',
+    },
+
+    title:{
+        padding:'5%',
+        backgroundColor:'#ffffff',
+
+    },
+    text1:{
+        fontSize:15,
+        color:'#0032ff',
+        fontWeight:'bold',
+    },
+})

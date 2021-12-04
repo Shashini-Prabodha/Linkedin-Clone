@@ -53,13 +53,13 @@ export default class AddEmailPw extends Component {
         if (emailRegex.test(text) === false) {
             this.setState({email: text});
             this.setState({emailError: true});
-            console.log("1")
+            console.log('1');
 
             return false;
         } else {
             this.setState({email: text});
             this.setState({emailError: false});
-            console.log("2")
+            console.log('2');
 
         }
     };
@@ -82,38 +82,38 @@ export default class AddEmailPw extends Component {
     JoinNow = () => {
         console.log(this.state.email + ' - ' + this.state.password);
         // if (this.state.email == null | this.state.password == null | this.state.email == '' |this.state.password == null |) {
-console.log(this.state.emailError +"  "+ this.state.passwordError);
-        console.log("1  => "+true && false);
+        console.log(this.state.emailError + '  ' + this.state.passwordError);
+        console.log('1  => ' + true && false);
 
         // if((this.state.emailError && this.state.passwordError)) {
-            auth()
+        auth()
 
-                .createUserWithEmailAndPassword(this.state.email, this.state.password)
-                .then(async () => {
-                    console.log('User Loged in!');
-                    // createUser.user.updateProfile({
-                    //     displayName: this.state.username
-                    // })
-                    await AsyncStorage.setItem('email', this.state.email);
-                    await AsyncStorage.setItem('password', this.state.password);
+            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(async () => {
+                console.log('User Loged in!');
+                // createUser.user.updateProfile({
+                //     displayName: this.state.username
+                // })
+                await AsyncStorage.setItem('email', this.state.email);
+                await AsyncStorage.setItem('password', this.state.password);
 
-                    this.props.navigation.navigate('AddName');
+                this.props.navigation.navigate('AddName');
 
-                })
-                .catch(error => {
-                    if (error.code === 'auth/email-already-in-use') {
-                        console.log('That email address is already in use!');
-                        Alert.alert('That email address is already in use!');
-                    }
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                    Alert.alert('That email address is already in use!');
+                }
 
-                    if (error.code === 'auth/invalid-email') {
-                        console.log('That email address is invalid!');
-                        Alert.alert('That email address is invalid!');
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                    Alert.alert('That email address is invalid!');
 
-                    }
+                }
 
-                    console.error(error);
-                });
+                console.error(error);
+            });
         // }else{
         //     Alert.alert('Email or Password can\'t be empty')
         //

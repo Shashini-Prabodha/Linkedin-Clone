@@ -1,49 +1,93 @@
 import React, {Component} from 'react';
-import {Image, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Image, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import {InputTextField} from '../../common/InputTextField';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import * as ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
+
 
 export default class UploadAvator extends Component {
     constructor(props) {
         super(props);
         this.state = {
             location: '',
-            password: '',
-            fname: 'kamla',
+            email: '',
+            fname: '',
             lname: '',
             job: '',
+            avatar: '',
+            docid: '',
+            postLink: [],
+
         };
     }
+
+    saveUser = () => {
+        console.log('in Save');
+
+        firestore()
+            .collection('users')
+
+            .add({
+                fname: this.state.fname,
+                lname: this.state.lname,
+                location: this.state.location,
+                email: this.state.email,
+                job: this.state.job,
+                avatar: this.state.avatar,
+                postLink: [],
+
+            })
+            .then(async (response) => {
+                this.setState({docid: response.id});
+                await AsyncStorage.setItem('docid', this.state.docid);
+
+                console.log('User added firebase! ');
+
+
+            });
+    };
 
     getData = async () => {
         try {
             const fname = await AsyncStorage.getItem('firstName');
             const lname = await AsyncStorage.getItem('lastName');
             const job = await AsyncStorage.getItem('job');
+            const email = await AsyncStorage.getItem('email');
+            const avatar = await AsyncStorage.getItem('avatar');
+            const location = await AsyncStorage.getItem('location');
 
             this.setState({fname: fname});
             this.setState({lname: lname});
             this.setState({job: job});
+            this.setState({email: email});
+            this.setState({avatar: avatar});
+            this.setState({location: location});
 
         } catch (e) {
             // error reading value
         }
     };
 
+// updateDB=()=>{
+//     firestore()
+//         .collection('Users')
+//         .doc('ABC')
+//         .update({
+//             age: 31,
+//         })
+//         .then(() => {
+//             console.log('User updated!');
+//         });
+// }
+
     componentDidMount() {
         this.getData();
     }
 
-    //
-    // Next = async () => {
-    //     await AsyncStorage.setItem('email', this.state.email);
-    //     await AsyncStorage.setItem('password', this.state.password);
-    //
-    //     this.props.navigation.navigate('UploadAvator');
-    // };
 
     AddPhoto = () => {
         ImagePicker.openPicker({
@@ -51,12 +95,45 @@ export default class UploadAvator extends Component {
             height: 400,
             cropping: true,
         }).then(image => {
-            console.log(image);
+            // console.log(image);
+            this.setState({
+                imagePath: image.path,
+            });
+
+            this.setState({
+                imageName: image.modificationDate,
+            });
+
+            this.UploadImage();
+
         });
     };
 
+    UploadImage = async () => {
+
+        this.setState({status: true});
+
+        const fileName = this.state.imageName + '.jpg';
+
+        const reference = storage().ref(`images/${fileName}`);
+        await reference.putFile(this.state.imagePath);
+
+        const url = await storage().ref(`images/${fileName}`).getDownloadURL();
+
+        this.setState({avatar: url});
+
+        await AsyncStorage.setItem('avatar', this.state.avatar);
+
+        this.saveUser();
+
+        this.props.navigation.navigate('Navigation');
+
+        console.log(url + '*******');
+
+    };
+
     Skip = () => {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Navigation');
     };
 
     updateText = () => {
@@ -86,6 +163,7 @@ export default class UploadAvator extends Component {
                     <Text style={styles.txtJob}>{this.state.job}</Text>
 
                 </View>
+                {this.state.status ? <ActivityIndicator size="large" color="#00ff00"/> : <></>}
 
 
                 <TouchableOpacity style={styles.btnAdd} mode="contained" onPress={this.AddPhoto}>
@@ -129,7 +207,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         width: '90%',
         height: '35%',
-        marginBottom: '30%',
+        marginBottom: '20%',
         borderRadius: 5,
         shadowColor: '#505050',
         shadowOpacity: 1,
@@ -140,7 +218,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 100,
-        backgroundColor: '#e7e7e7',
+        backgroundColor: '#efefef',
     },
     camera: {
         width: '60%',
@@ -194,4 +272,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
 
     },
+
 });

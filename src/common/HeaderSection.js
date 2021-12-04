@@ -3,20 +3,91 @@ import {Text, View, StyleSheet, Image} from 'react-native';
 import {Searchbar, Avatar,IconButton} from 'react-native-paper';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 class HeaderSection extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            location: '',
+            email: '',
+            fname: '',
+            lname: '',
+            job: '',
+            avatar: '',
+            docid:''
+
+        };
     }
+//
+//     const subscriber = firestore()
+//         .collection('customers')
+//         .doc('f7OKCjbGkgvLexr71Svx')
+//         .onSnapshot(documentSnapshot => {
+//             console.log('User data: ', documentSnapshot.data().name);
+//             this.setState({
+//                 name: documentSnapshot.data().name
+//             })
+//         });
+// }
+
+    getData = async () => {
+        console.log("in data 1");
+
+        try {
+            const email= await AsyncStorage.getItem('email');
+            const avatar = await AsyncStorage.getItem('avatar');
+            const docid = await AsyncStorage.getItem('docid');
+            console.log("in data 2");
+
+            this.setState({email: email});
+            this.setState({docid: docid});
+            // this.setState({avatar: avatar});
+
+            console.log("++++++++++++++++++++++++++++++ id "+ this.state.docid);
+this.getAvatar();
+
+        } catch (e) {
+            // error reading value
+        }
+    };
+
+    getAvatar=()=>{
+        console.log("in data 3");
+
+        firestore()
+
+            .collection('users')
+            .doc(this.state.docid)
+            .onSnapshot(documentSnapshot => {
+                console.log('User data: ', documentSnapshot.data().avatar);
+                this.setState({
+                    avatar: documentSnapshot.data().avatar
+                })
+            });
+    }
+
+    componentDidMount() {
+        console.log("in data 0");
+
+        this.getData();
+        console.log("********************************************************** id "+ this.state.docid);
+
+
+    }
+
     render() {
 
         return (
             <KeyboardAvoidingView style={styles.container}>
                 <View style={styles.heading}>
 
-                    <Avatar.Image size={40} source={require('../assets/1638183539829.jpg')}
+                    <Avatar.Image size={40} source={{uri:this.state.avatar}}
                                   style={styles.avatar}></Avatar.Image>
                     <Ionicons name="ellipse" size={13}  color='#07C81A' style={styles.online}></Ionicons>
+
 
                     <Searchbar
                         placeholder="Search"
@@ -52,6 +123,7 @@ const styles = StyleSheet.create({
     searchBar: {
         width: '75%',
         marginLeft: '2%',
+        marginBottom:'3%'
     },
     avatar:{
         marginLeft:'5%',
