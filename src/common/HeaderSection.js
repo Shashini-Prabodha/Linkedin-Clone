@@ -57,19 +57,36 @@ this.getAvatar();
     getAvatar=()=>{
         console.log("in data 3");
 
-        firestore()
+        // firestore()
 
+            // .collection('users')
+            // .doc(this.state.docid)
+            // .onSnapshot(documentSnapshot => {
+            //     console.log('User data: ', documentSnapshot.data().avatar);
+            //     this.setState({
+            //         avatar: documentSnapshot.data().avatar
+            //     })
+            // });
+        firestore()
             .collection('users')
-            .doc(this.state.docid)
-            .onSnapshot(documentSnapshot => {
-                console.log('User data: ', documentSnapshot.data().avatar);
-                this.setState({
-                    avatar: documentSnapshot.data().avatar
-                })
+            // Filter results
+            .where('email', '==', this.state.email)
+            .get()
+            .then(querySnapshot => {
+                console.log(this.state.email+"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"+querySnapshot.size)
+                /* ... */
+                querySnapshot.forEach((doc) => {
+                    this.setState({avatar: doc.data().valueOf().avatar});
+
+                    console.log(doc.id, '---------------- => ', doc.data().valueOf().avatar);
+                });
+                // querySnapshot.forEach((user) => {
+                //     console.log(this.state.email+'----------'+user.data()+"*********************++++++++++++");
+                // });
             });
     }
 
-    
+
     componentDidMount() {
         console.log("in data 0");
 
