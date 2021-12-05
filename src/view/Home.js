@@ -4,6 +4,7 @@ import {Searchbar, Avatar, IconButton} from 'react-native-paper';
 import HeaderSection from '../common/HeaderSection';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
 
 
 const DATA = [
@@ -36,73 +37,6 @@ const DATA = [
 ];
 
 
-const renderItem = ({item, index}) => (
-    <View style={styles.card}>
-        <View style={styles.nameTag}>
-
-            <Avatar.Image size={40} source={require('../assets/1638183539829.jpg')}
-                          style={styles.avatar}/>
-            <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
-            <View>
-                <Text style={styles.title}>{item.title} </Text>
-                <Text> {item.year}</Text>
-                <Text> 1m <Ionicons name="ellipse" size={5}></Ionicons> <Ionicons name="globe-outline"></Ionicons>
-                </Text>
-                <Image
-                    source={require('../assets/menu_vertical_64px.png')}
-                    resizeMode="contain"
-                    style={styles.dots}>
-                </Image>
-            </View>
-        </View>
-
-
-        <Text style={styles.picCaption}>Picture Title</Text>
-
-        <View style={styles.cardBody}>
-            <Image
-                style={styles.cimg}
-                source={item.image}
-                resizeMode="contain"
-            />
-        </View>
-
-        <View style={styles.cardFooter}>
-
-            <IconButton
-                style={styles.icon}
-                icon="thumb-up"
-                color="#95a5a6"
-                size={20}
-                onPress={() => console.log('Pressed')}
-                accessibilityLabel="like"
-            />
-            <IconButton
-                style={styles.icon}
-                icon="comment"
-                color="#95a5a6"
-                size={20}
-                onPress={() => console.log('Pressed')}
-            />
-            <IconButton
-                style={styles.icon}
-                icon="share"
-                color="#95a5a6"
-                size={22}
-                onPress={() => console.log('Pressed')}
-            />
-            <IconButton
-                style={styles.icon}
-                icon="telegram"
-                color="#95a5a6"
-                size={22}
-                onPress={() => console.log('Pressed')}
-            />
-        </View>
-
-    </View>
-);
-
 
 class Home extends Component {
     constructor(props) {
@@ -111,24 +45,116 @@ class Home extends Component {
             fname: '',
             lname: '',
             job: '',
+            avatar:'',
+            email:'',
             status: false,
         };
     }
+
+    getAvatar = () => {
+
+        firestore()
+            .collection('users')
+            // Filter results
+            .where('email', '==', this.state.email)
+            .get()
+            .then(querySnapshot => {
+
+                querySnapshot.forEach((doc) => {
+                    this.setState({avatar: doc.data().valueOf().avatar});
+
+                });
+
+            });
+    };
 
     getData = async () => {
         try {
             const fname = await AsyncStorage.getItem('firstName');
             const lname = await AsyncStorage.getItem('lastName');
             const job = await AsyncStorage.getItem('job');
+            const email = await AsyncStorage.getItem('email');
 
+
+            this.setState({email: email});
             this.setState({fname: fname});
             this.setState({lname: lname});
             this.setState({job: job});
+
+            this.getAvatar();
 
         } catch (e) {
             // error reading value
         }
     };
+
+
+    renderItem = ({item, index}) => (
+        <View style={styles.card}>
+            <View style={styles.nameTag}>
+
+                <Avatar.Image size={40} source={{uri:this.state.avatar}}
+                              style={styles.avatar}/>
+                <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
+                <View>
+                    <Text style={styles.title}>{item.title} </Text>
+                    <Text> {item.year}</Text>
+                    <Text> 1m <Ionicons name="ellipse" size={5}></Ionicons> <Ionicons name="globe-outline"></Ionicons>
+                    </Text>
+                    <Image
+                        source={require('../assets/menu_vertical_64px.png')}
+                        resizeMode="contain"
+                        style={styles.dots}>
+                    </Image>
+                </View>
+            </View>
+
+
+            <Text style={styles.picCaption}>Picture Title</Text>
+
+            <View style={styles.cardBody}>
+                <Image
+                    style={styles.cimg}
+                    source={item.image}
+                    resizeMode="contain"
+                />
+            </View>
+
+            <View style={styles.cardFooter}>
+
+                <IconButton
+                    style={styles.icon}
+                    icon="thumb-up"
+                    color="#95a5a6"
+                    size={20}
+                    onPress={() => console.log('Pressed')}
+                    accessibilityLabel="like"
+                />
+                <IconButton
+                    style={styles.icon}
+                    icon="comment"
+                    color="#95a5a6"
+                    size={20}
+                    onPress={() => console.log('Pressed')}
+                />
+                <IconButton
+                    style={styles.icon}
+                    icon="share"
+                    color="#95a5a6"
+                    size={22}
+                    onPress={() => console.log('Pressed')}
+                />
+                <IconButton
+                    style={styles.icon}
+                    icon="telegram"
+                    color="#95a5a6"
+                    size={22}
+                    onPress={() => console.log('Pressed')}
+                />
+            </View>
+
+        </View>
+    );
 
     componentDidMount() {
         this.getData();
@@ -146,7 +172,7 @@ class Home extends Component {
                     <FlatList
                         data={DATA}
                         keyExtractor={(item) => item.id.toString()}
-                        renderItem={renderItem}
+                        renderItem={this.renderItem}
                     />
                 </View>
 
