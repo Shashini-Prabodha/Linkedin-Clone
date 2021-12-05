@@ -13,7 +13,25 @@ export default class AddName extends Component {
             lname: '',
         };
     }
+    firstNameValidation = (text) => {
+        let userNameRegex = /^[a-zA-Z ]{2,40}$/;
+        if (userNameRegex.test(text) === false) {
+            this.setState({fname: text});
+            return false;
+        } else {
+            this.setState({lname: text});
+        }
+    };
 
+    lastNameValidation = (text) => {
+        let userNameRegex = /^[a-zA-Z ]{2,40}$/;
+        if (userNameRegex.test(text) === false) {
+            this.setState({lastName: text});
+            return false;
+        } else {
+            this.setState({lastName: text});
+        }
+    };
 
     Continue = () => {
         console.log(this.state.fname);

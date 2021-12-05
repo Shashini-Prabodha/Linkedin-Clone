@@ -62,7 +62,9 @@ class Home extends Component {
 
                 querySnapshot.forEach((doc) => {
                     this.setState({avatar: doc.data().valueOf().avatar});
-
+                    this.setState({fname: doc.data().valueOf().fname});
+                    this.setState({lname: doc.data().valueOf().lname});
+                    this.setState({job: doc.data().valueOf().job});
                 });
 
             });
@@ -97,9 +99,9 @@ class Home extends Component {
                               style={styles.avatar}/>
                 <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
                 <View>
-                    <Text style={styles.title}>{item.title} </Text>
-                    <Text> {item.year}</Text>
-                    <Text> 1m <Ionicons name="ellipse" size={5}></Ionicons> <Ionicons name="globe-outline"></Ionicons>
+                    <Text style={styles.title}>{this.state.fname} {this.state.lname} </Text>
+                    <Text>{this.state.job}</Text>
+                    <Text>1m <Ionicons name="ellipse" size={5}></Ionicons> <Ionicons name="globe-outline"></Ionicons>
                     </Text>
                     <Image
                         source={require('../assets/menu_vertical_64px.png')}

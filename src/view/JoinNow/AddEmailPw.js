@@ -23,30 +23,12 @@ export default class AddEmailPw extends Component {
         this.state = {
             email: null,
             password: null,
-            emailError: false,
-            passwordError: false,
+            emailError: true,
+            passwordError: true,
         };
     }
 
-    firstNameValidation = (text) => {
-        let userNameRegex = /^[a-zA-Z ]{2,40}$/;
-        if (userNameRegex.test(text) === false) {
-            this.setState({firstName: text});
-            return false;
-        } else {
-            this.setState({firstName: text});
-        }
-    };
 
-    lastNameValidation = (text) => {
-        let userNameRegex = /^[a-zA-Z ]{2,40}$/;
-        if (userNameRegex.test(text) === false) {
-            this.setState({lastName: text});
-            return false;
-        } else {
-            this.setState({lastName: text});
-        }
-    };
 
     emailValidation = (text) => {
         let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -81,19 +63,17 @@ export default class AddEmailPw extends Component {
 
     JoinNow = () => {
         console.log(this.state.email + ' - ' + this.state.password);
-        // if (this.state.email == null | this.state.password == null | this.state.email == '' |this.state.password == null |) {
-        console.log(this.state.emailError + '  ' + this.state.passwordError);
-        console.log('1  => ' + true && false);
+        // if (this.state.email != null | this.state.password != null | this.state.email != '' |this.state.password != '' ) {
+        console.log(this.state.emailError + '  ' + this.state.passwordError+'= '+(this.state.emailError & this.state.passwordError));
 
-        // if((this.state.emailError && this.state.passwordError)) {
+
+        if(!(this.state.emailError & this.state.passwordError)) {
         auth()
 
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(async () => {
                 console.log('User Loged in!');
-                // createUser.user.updateProfile({
-                //     displayName: this.state.username
-                // })
+
                 await AsyncStorage.setItem('email', this.state.email);
                 await AsyncStorage.setItem('password', this.state.password);
 
@@ -114,10 +94,10 @@ export default class AddEmailPw extends Component {
 
                 console.error(error);
             });
-        // }else{
-        //     Alert.alert('Email or Password can\'t be empty')
-        //
-        // }
+        }else{
+            Alert.alert('Email or Password can\'t be empty')
+
+        }
     };
 
 

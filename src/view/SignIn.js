@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet, KeyboardAvoidingView, View, Text, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, KeyboardAvoidingView, View, Text, TouchableOpacity, Alert} from 'react-native';
 import {TextInput, Checkbox} from 'react-native-paper';
 
 import PasswordInputText from 'react-native-hide-show-password-input';
@@ -8,6 +8,7 @@ import {FloatingLabelInput} from 'react-native-floating-label-input/index';
 import CheckBox from 'react-native-check-box';
 import {GoogleSignin,} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 GoogleSignin.configure({
     webClientId: '603255967584-ebf88ki08kjmor74l148p8d1bgapfhmf.apps.googleusercontent.com',
@@ -21,6 +22,7 @@ class SignIn extends Component {
             password: '',
             isChecked: true,
         };
+        console.disableYellowBox = true;
     }
 
     JoinNow = () => {
@@ -28,7 +30,42 @@ class SignIn extends Component {
     };
 
     Continue = () => {
-        this.props.navigation.navigate('Navigation');
+        auth()
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(async () => {
+                console.log('User Loged in!');
+
+                await AsyncStorage.setItem('email', this.state.email);
+                await AsyncStorage.setItem('password', this.state.password);
+
+                this.props.navigation.navigate('Navigation');
+
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                    Alert.alert('That email address is already in use!');
+
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                    Alert.alert('That email address is invalid!');
+
+                }
+                if (error.code === 'auth/wrong-password') {
+                    console.log('That password is invalid!');
+                    Alert.alert('That password is invalid!');
+
+                }
+                if (error.code === 'auth/user-not-found') {
+                    console.log('User not found ! Please check your email!');
+                    Alert.alert('User not found ! Please check your email!');
+
+                }
+
+                console.error(error);
+            });
     };
 
     onGoogleButtonPress = async () => {

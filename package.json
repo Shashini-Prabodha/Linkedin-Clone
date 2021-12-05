@@ -22,6 +22,7 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
     "material-ui-community-icons": "^0.15.0",
+    "native-base": "^3.2.2",
     "react": "17.0.2",
     "react-native": "0.66.3",
     "react-native-check-box": "^2.1.7",
@@ -33,6 +34,7 @@
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0",
+    "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {

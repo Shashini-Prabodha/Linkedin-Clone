@@ -1,61 +1,182 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Text, Image, ScrollView} from 'react-native';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import {Avatar, IconButton, TextInput} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+
+import {TextArea, NativeBaseProvider} from 'native-base';
+import {position} from 'native-base/lib/typescript/theme/styled-system';
 
 class PostPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-                       message: '',
+            message: '',
+            email: '',
+            avater: '',
         };
     }
+
+    getData = async () => {
+
+        try {
+            const email = await AsyncStorage.getItem('email');
+            const avatar = await AsyncStorage.getItem('avatar');
+
+            this.setState({email: email});
+            this.setState({avatar: avatar});
+
+            this.getAvatar();
+
+        } catch (e) {
+            // error reading value
+        }
+    };
+
+    getAvatar = () => {
+        firestore()
+            .collection('users')
+            // Filter results
+            .where('email', '==', this.state.email)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach((doc) => {
+                    this.setState({avatar: doc.data().valueOf().avatar});
+                });
+
+            });
+    };
+
+
+    componentDidMount() {
+        this.getData();
+    }
+
     closePage = () => {
         this.props.navigation.navigate('Navigation');
     };
 
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
 
-                <View style={styles.title}>
+                <View style={styles.postTop}>
                     <IconButton
-                        style={styles.icon}
+                        style={styles.btnClose}
                         icon="close"
                         color="#000000"
                         size={26}
                         onPress={this.closePage}
                     />
-                    <Text style={styles.stitle}>Share post</Text>
-                    <TouchableOpacity style={styles.postbtn}>
-                        <Text style={styles.postbtnText}>Post
-                        </Text></TouchableOpacity>
+                    <Text style={styles.txtShare}>Share post</Text>
+
+                    <TouchableOpacity style={styles.btnPost}>
+                        <Text style={styles.txtPost}>Post</Text>
+                    </TouchableOpacity>
                 </View>
 
-
-                <View style={styles.header}>
-                    <Avatar.Image size={45} source={require('../assets/1638183539829.jpg')}
-                                  style={styles.avatar}></Avatar.Image>
-                <Text style={styles.nameTxt}>Shashini Prabodha</Text>
+                <View style={styles.avatarSection}>
+                    <View style={styles.avtImg}>
+                        <Avatar.Image size={45} source={{uri: this.state.avatar}}
+                                      style={styles.avatar}>
+                        </Avatar.Image>
+                    </View>
+                    <View style={styles.userNameView}>
+                        <Text style={styles.txtUser}>Shashini Prabodha</Text>
+                        <TouchableOpacity style={styles.typeView}>
+                            <Image source={require('../assets/globe.png')}
+                                   resizeMode="contain"
+                                   style={styles.globeImg}
+                            />
+                            <Text style={styles.txtPublic}>Anyone</Text>
+                            <Image source={require('../assets/triggle.png')}
+                                   resizeMode="contain"
+                                   style={styles.underImg}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.anyTag}>
-                    <Text style={styles.anyTagTxt}>Anyone</Text>
+
+                <View style={styles.typeAreaView}>
+                    <NativeBaseProvider>
+                        <TextArea
+                            marginLeft="2%"
+                            aria-label="t1"
+                            numberOfLines={4}
+                            placeholder="What do you want to talk about ?"
+                            fontSize="lg"
+                            mb="32"
+                            width="94%"
+                            height="80%"
+                            color="#666666"
+                            borderColor="white"
+                            borderWidth={0}
+                        />
+                    </NativeBaseProvider>
                 </View>
-                <TextInput
 
+                <View style={styles.postButtonView}>
+                    <TouchableOpacity style={styles.addPhotoView}>
+                        <Image source={require('../assets/add_image.png')}
+                               resizeMode="contain"
+                               style={styles.addImg}
+                        />
+                        <Text style={styles.txtAddPhoto}> Add a photo</Text>
+                    </TouchableOpacity>
 
-                    placeHolder="Colombo, Western, Sri Lanka"
-                    value={this.state.message}
-
-                    style={styles.input}
-
-                    onChangeText={text => this.setState(
-                        {message: text},
-                    )}
-                />
-
-            </View>
+                    <TouchableOpacity style={styles.buttonView}>
+                        <Image source={require('../assets/video_call.png')}
+                               resizeMode="contain"
+                               style={styles.btnImg}
+                        />
+                        <Text style={styles.btnTxt}> Take a video</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonView}>
+                        <Image source={require('../assets/cele_occ.png')}
+                               resizeMode="contain"
+                               style={styles.btnImg}
+                        />
+                        <Text style={styles.btnTxt}> Celebrate an occasion</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonView}>
+                        <Image source={require('../assets/document_127px.png')}
+                               resizeMode="contain"
+                               style={styles.btnImg}
+                        />
+                        <Text style={styles.btnTxt}> Add a document</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonView}>
+                        <Image source={require('../assets/jobs.png')}
+                               resizeMode="contain"
+                               style={styles.btnImg}
+                        />
+                        <Text style={styles.btnTxt}> Share that you're hiring</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonView}>
+                        <Image source={require('../assets/contacts_127px.png')}
+                               resizeMode="contain"
+                               style={styles.btnImg}
+                        />
+                        <Text style={styles.btnTxt}> Find an expert</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonView}>
+                        <Image source={require('../assets/poll.png')}
+                               resizeMode="contain"
+                               style={styles.btnImg}
+                        />
+                        <Text style={styles.btnTxt}> Create a poll</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonView}>
+                        <Image source={require('../assets/calendar_5.png')}
+                               resizeMode="contain"
+                               style={styles.btnImg}
+                        />
+                        <Text style={styles.btnTxt}> Create an event</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         );
     }
 }
@@ -65,86 +186,138 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // margin: '2%',
-        backgroundColor:'#ffffff',
+        backgroundColor: '#FFFFFF',
 
     },
-    title: {
-        backgroundColor: '#ffffff',
-        marginBottom: '6%',
-        height: '10%',
+    postTop: {
         width: '100%',
-        shadowColor: '#505050',
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 5,
+        height: '8%',
+        backgroundColor: '#ffffff',
+        alignItems: 'center',
         flexDirection: 'row',
-        alignContent: 'center',
+    },
+    btnClose: {
+        width: '10%',
+        height: '100%',
+        marginLeft: '3%',
+    },
+    txtShare: {
+        color: '#666666',
+        fontSize: 18,
+        marginLeft: '2%',
+        fontWeight: '600',
+    },
+    btnPost: {
+        width: '10%',
+        height: '100%',
         justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: '50%',
     },
-    icon: {
-        marginTop: '4%',
-        marginRight: '10%',
-
-    },
-    stitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#000000',
-        marginRight: '36%',
-        marginTop: '4%',
-        marginLeft: '-4%',
-
-    },
-    postbtn: {
-        marginTop: '6%',
-        marginLeft: '6%',
-    },
-    postbtnText: {
+    txtPost: {
+        color: '#666666',
         fontSize: 15,
-        color: '#000000',
-},
-    avatar: {
+    },
+    avatarSection: {
+        width: '100%',
+        height: '10%',
+        backgroundColor: '#FFFFFF',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    avtImg: {
+        width: '18%',
+        height: '100%',
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    userNameView: {
+        width: '40%',
+        height: '100%',
+        backgroundColor: '#FFFFFF',
+    },
+    txtUser: {
+        color: '#666666',
+        fontSize: 16,
+        marginTop: '2%',
+        fontWeight: '500',
+        marginLeft: '3%',
+    },
+    typeView: {
+        width: '80%',
+        height: '37%',
+        marginLeft: '3%',
+        marginTop: '4%',
+        alignItems: 'center',
+        flexDirection: 'row',
+        borderColor: '#666666',
+        borderWidth: 1,
+        borderRadius: 20,
+    },
+    globeImg: {
+        width: '20%',
+        height: '60%',
         marginLeft: '5%',
-        marginTop: '1%',
-        shadowColor: '#000000',
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 7,
-        zIndex: -1,
     },
-    online: {
-        marginTop: '-4%',
-        marginLeft: '12%',
-        borderWidth: 1,
-        width: '4%',
-        borderRadius: 100,
-        borderColor: '#ffffff',
-        zIndex: 20,
+    txtPublic: {
+        color: '#666666',
+        fontWeight: '600',
+        fontSize: 16,
+        marginTop: '-1%',
+        marginLeft: '5%',
     },
-    nameTxt:{
-        fontWeight: 'bold',
+    underImg: {
+        width: '7%',
+        height: '60%',
+        marginLeft: '10%',
+    },
+    typeAreaView: {
+        width: '100%',
+        height: '32%',
+        backgroundColor: '#FFFFFF',
+    },
+    postButtonView: {
+        width: '100%',
+        height: 330,
+        backgroundColor: '#FFFFFF',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        elevation: 6,
+    },
+    addPhotoView: {
+        width: '100%',
+        height: '12%',
+        marginTop: '3%',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    addImg: {
+        width: '10%',
+        height: '60%',
+        marginLeft: '2%',
+    },
+    txtAddPhoto: {
+        color: '#666666',
         fontSize: 15,
-marginLeft:'20%',
-        marginTop:'-11%'
+        marginLeft: '1%',
     },
-    anyTag:{
-        width:'27%',
-        marginLeft:'20%',
-height: '4%',
-        borderRadius: 30,
-        borderColor: '#969696',
-        borderWidth: 1,
+    buttonView: {
+        width: '100%',
+        height: '12%',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
-    anyTagTxt:{
-        fontWeight: 'bold',
+    btnImg: {
+        width: '10%',
+        height: '60%',
+        marginLeft: '2%',
+    },
+    btnTxt: {
+        color: '#666666',
+        fontSize: 15,
+        marginLeft: '0.5%',
+    },
 
-    },
-    input:{
-        width: 360,
-        marginTop: '5%',
-        backgroundColor: 'white',
-        color: 'black',
-        marginBottom:'12%',
-        borderEndColor: 'red',
-    },
+
 });

@@ -80,7 +80,7 @@ componentDidMount() {
             return (
                 <NavigationContainer independent={true}>
                     <Stack.Navigator>
-                        <Stack.Screen options={{headerShown: false}} name="Navigation" component={Navigation}/>
+                        <Stack.Screen options={{headerShown: false}} name="PostPage" component={PostPage}/>
 
                         <Stack.Screen name="LoginPage" options={{headerShown: false}} component={LoginPage}/>
                         <Stack.Screen name="UploadAvator" options={{headerShown: false}} component={UploadAvator}/>
@@ -89,7 +89,7 @@ componentDidMount() {
                         <Stack.Screen name="AddName" options={{headerShown: false}} component={AddName}/>
                         <Stack.Screen name="SignIn" options={{headerShown: false}} component={SignIn}/>
                         <Stack.Screen name="Home" options={{headerShown: false}} component={Home}/>
-                        {/*<Stack.Screen options={{headerShown: false}} name="Navigation" component={Navigation}/>*/}
+                        <Stack.Screen options={{headerShown: false}} name="Navigation" component={Navigation}/>
                     </Stack.Navigator>
                 </NavigationContainer>
             );
