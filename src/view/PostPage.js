@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, View, Text, Image, ScrollView} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Text, Image, ScrollView, Alert} from 'react-native';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import {Avatar, IconButton, TextInput} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -22,7 +22,6 @@ class PostPage extends Component {
             url: '',
             name:'',
             job:'',
-            txtPress: false,
         };
     }
 
@@ -52,7 +51,7 @@ class PostPage extends Component {
             .then(querySnapshot => {
                 querySnapshot.forEach((doc) => {
                     this.setState({avatar: doc.data().valueOf().avatar});
-                    this.setState({name: doc.data().valueOf().fname+" "+doc.data().valueOf().lname});
+                    this.setState({name: doc.data().valueOf().name});
                     this.setState({job: doc.data().valueOf().job});
                 });
 
@@ -125,12 +124,16 @@ class PostPage extends Component {
                 this.setState({docid: response.id});
                 await AsyncStorage.setItem('docid', this.state.docid);
 
-                console.log('User added firebase! ');
-
+                console.log('Post added firebase! ');
+                Alert.alert('New Post Added!');
+                this.props.navigation.navigate('Navigation');
 
             });
     };
 
+    titleChanged=(text)=>{
+        this.setState({title:text});
+    }
 
     render() {
         return (
@@ -188,7 +191,9 @@ class PostPage extends Component {
                             color="#666666"
                             borderColor="white"
                             borderWidth={0}
-                            onPress={this.txtPress}
+                            onChangeText={text =>
+                                this.titleChanged(text)
+                            }
                         />
                     </NativeBaseProvider>
                 </View>

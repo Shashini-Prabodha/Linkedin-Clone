@@ -57,7 +57,7 @@ export default class App extends Component {
         } else {
             if (this.state.email != 'empty') {
                 console.log("this.state.email "+this.state.email)
-                return <PasswordPage/>;
+                return <Navigation/>;
 
             } else {
                 // console.log("this.state.email2 "+this.state.email)

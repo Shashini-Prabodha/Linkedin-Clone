@@ -216,7 +216,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: '0%',
-        // backgroundColor:'#e7e7e7',
     },
     header: {
         margin: 0,
@@ -230,7 +229,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#ffffff',
         marginTop: 12,
-        height: 430,
+        height: 440,
         alignContent: 'center',
         justifyContent: 'center',
     },
@@ -239,6 +238,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
+        color:'#000000',
     },
     dots: {
         height: '20%',
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     nameTag: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginTop: '-3%',
+        marginTop: '-0%',
         marginLeft: '2.5%',
     },
     online: {
@@ -264,20 +264,24 @@ const styles = StyleSheet.create({
     },
     picCaption: {
         color: '#000000',
-        marginTop: '-8%',
+        marginTop: '-9%',
         marginLeft: '4%',
+        width:'90%',
+        backgroundColor:'#ffffff',
+        zIndex:1
+
     },
     cimg: {
         width: '100%',
-        height: '88%',
-        marginTop: '-7%',
+        height: '80%',
+        marginTop: '4%',
         marginBottom: '0%',
-        backgroundColor:'#e7e7e7'
+        backgroundColor:'#f5f5f5'
     },
     cardFooter: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginTop: '-18%',
+        marginTop: '-13%',
 
     },
     icon: {

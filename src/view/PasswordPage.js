@@ -77,7 +77,7 @@ export default class PasswordPage extends Component {
         const user = auth().signInWithCredential(googleCredential);
 
         console.log((await user).user.updatePassword(this.state.password));
-        this.props.navigation.navigate('AddName');
+        this.props.navigation.navigate('AddDetails');
 
     };
 
