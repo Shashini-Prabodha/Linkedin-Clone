@@ -42,8 +42,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fname: '',
-            lname: '',
+            name: '',
             job: '',
             avatar:'',
             email:'',
@@ -65,8 +64,7 @@ class Home extends Component {
 
                 querySnapshot.forEach((doc) => {
                     this.setState({avatar: doc.data().valueOf().avatar});
-                    this.setState({fname: doc.data().valueOf().fname});
-                    this.setState({lname: doc.data().valueOf().lname});
+                    this.setState({name: doc.data().valueOf().name});
                     this.setState({job: doc.data().valueOf().job});
                 });
 
@@ -75,15 +73,13 @@ class Home extends Component {
 
     getData = async () => {
         try {
-            const fname = await AsyncStorage.getItem('firstName');
-            const lname = await AsyncStorage.getItem('lastName');
+            const name = await AsyncStorage.getItem('name');
             const job = await AsyncStorage.getItem('job');
             const email = await AsyncStorage.getItem('email');
 
 
             this.setState({email: email});
-            this.setState({fname: fname});
-            this.setState({lname: lname});
+            this.setState({name: name});
             this.setState({job: job});
 
             this.getAvatar();

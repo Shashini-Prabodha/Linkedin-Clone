@@ -70,14 +70,20 @@ class SignIn extends Component {
 
     onGoogleButtonPress = async () => {
         // Get the users ID token
-        const {idToken} = await GoogleSignin.signIn();
+        const idToken = await GoogleSignin.signIn();
+
+        console.log(idToken+' idToken');
 
         // Create a Google credential with the token
         const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
+        console.log('googleCredential'+googleCredential);
+
         // Sign-in the user with the credential
-        const user = auth().signInWithCredential(googleCredential);
-        console.log((await user).user);
+        // const user = auth().signInWithCredential(googleCredential);
+        // console.log((await user).user);
+
+
     };
 
 

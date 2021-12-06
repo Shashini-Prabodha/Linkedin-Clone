@@ -11,6 +11,7 @@ export default class AddName extends Component {
         this.state = {
             fname: '',
             lname: '',
+
         };
     }
     firstNameValidation = (text) => {
@@ -43,8 +44,8 @@ export default class AddName extends Component {
     storeData = async () => {
         try {
             console.log('in' + this.state.fname);
-            await AsyncStorage.setItem('firstName', this.state.fname);
-            await AsyncStorage.setItem('lastName', this.state.lname);
+            await AsyncStorage.setItem('name', this.state.fname+' '+this.state.lname);
+
         } catch (e) {
 
         }

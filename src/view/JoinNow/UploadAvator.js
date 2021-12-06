@@ -15,8 +15,7 @@ export default class UploadAvator extends Component {
         this.state = {
             location: '',
             email: '',
-            fname: '',
-            lname: '',
+            name: '',
             job: '',
             avatar: '',
             docid: '',
@@ -32,8 +31,7 @@ export default class UploadAvator extends Component {
             .collection('users')
 
             .add({
-                fname: this.state.fname,
-                lname: this.state.lname,
+                name: this.state.name,
                 location: this.state.location,
                 email: this.state.email,
                 job: this.state.job,
@@ -52,15 +50,13 @@ export default class UploadAvator extends Component {
 
     getData = async () => {
         try {
-            const fname = await AsyncStorage.getItem('firstName');
-            const lname = await AsyncStorage.getItem('lastName');
+            const name = await AsyncStorage.getItem('name');
             const job = await AsyncStorage.getItem('job');
             const email = await AsyncStorage.getItem('email');
             const avatar = await AsyncStorage.getItem('avatar');
             const location = await AsyncStorage.getItem('location');
 
-            this.setState({fname: fname});
-            this.setState({lname: lname});
+            this.setState({name: name});
             this.setState({job: job});
             this.setState({email: email});
             this.setState({avatar: avatar});
@@ -135,9 +131,6 @@ export default class UploadAvator extends Component {
         this.props.navigation.navigate('Navigation');
     };
 
-    updateText = () => {
-        this.setState({fname: 'My Changed Text'});
-    };
 
     render() {
         return (
@@ -158,7 +151,7 @@ export default class UploadAvator extends Component {
                             style={styles.camera}>
                         </Image>
                     </View>
-                    <Text style={styles.txtName} onPress={this.updateText}>{this.state.fname} {this.state.lname}</Text>
+                    <Text style={styles.txtName}>{this.state.name}</Text>
                     <Text style={styles.txtJob}>{this.state.job}</Text>
 
                 </View>

@@ -9,6 +9,7 @@ import {
     GoogleSigninButton,
 
 } from '@react-native-google-signin/google-signin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Common ---------------------------------------------------------------------------------
 
@@ -22,6 +23,8 @@ export default class LoginPage extends Component {
         this.state = {
             email: '',
             password: '',
+            name:'',
+            url:''
         };
     }
 
@@ -32,6 +35,7 @@ export default class LoginPage extends Component {
     SignIn = () => {
         this.props.navigation.navigate('SignIn');
     };
+
     onGoogleButtonPress = async () => {
         // Get the users ID token
         const {idToken} = await GoogleSignin.signIn();
@@ -41,10 +45,39 @@ export default class LoginPage extends Component {
 
         // Sign-in the user with the credential
         const user = auth().signInWithCredential(googleCredential);
+
+        this.setState({email: (await user).user.email});
+        this.setState({name: (await user).user.displayName});
+        this.setState({url: (await user).user.photoURL});
+
+        await AsyncStorage.setItem('email', this.state.email);
+        await AsyncStorage.setItem('name', this.state.name);
+        await AsyncStorage.setItem('url', this.state.url);
+
+
+        console.log((await user).user.displayName);
         console.log((await user).user);
+        this.props.navigation.navigate('PasswordPage');
+
     };
 
-
+    // onGoogleButtonPress = async () => {
+    //     // Get the users ID token
+    //     const idToken = await GoogleSignin.signIn();
+    //
+    //     console.log(idToken+' idToken');
+    //
+    //     // Create a Google credential with the token
+    //     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    //
+    //     console.log('googleCredential'+googleCredential);
+    //
+    //     // Sign-in the user with the credential
+    //     // const user = auth().signInWithCredential(googleCredential);
+    //     // console.log((await user).user);
+    //
+    //
+    // };
 
 
     render() {
