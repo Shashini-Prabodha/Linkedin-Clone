@@ -8,14 +8,21 @@ import firestore from '@react-native-firebase/firestore';
 
 import {TextArea, NativeBaseProvider} from 'native-base';
 import {position} from 'native-base/lib/typescript/theme/styled-system';
+import ImagePicker from 'react-native-image-crop-picker';
+import storage from '@react-native-firebase/storage';
 
 class PostPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: '',
+            title: '',
             email: '',
             avater: '',
+            image: '',
+            url: '',
+            name:'',
+            job:'',
+            txtPress: false,
         };
     }
 
@@ -35,6 +42,7 @@ class PostPage extends Component {
         }
     };
 
+
     getAvatar = () => {
         firestore()
             .collection('users')
@@ -44,6 +52,8 @@ class PostPage extends Component {
             .then(querySnapshot => {
                 querySnapshot.forEach((doc) => {
                     this.setState({avatar: doc.data().valueOf().avatar});
+                    this.setState({name: doc.data().valueOf().fname+" "+doc.data().valueOf().lname});
+                    this.setState({job: doc.data().valueOf().job});
                 });
 
             });
@@ -58,8 +68,73 @@ class PostPage extends Component {
         this.props.navigation.navigate('Navigation');
     };
 
+    AddPhoto = () => {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 400,
+            cropping: true,
+        }).then(image => {
+            // console.log(image);
+            this.setState({
+                imagePath: image.path,
+            });
+
+            this.setState({
+                imageName: image.modificationDate,
+            });
+            this.setState({
+                image: image.path,
+            });
+
+        });
+    };
+
+    UploadImage = async () => {
+
+        const fileName = this.state.imageName + '.jpg';
+        const reference = storage().ref(`images/${fileName}`);
+        await reference.putFile(this.state.imagePath);
+
+        const url = await storage().ref(`images/${fileName}`).getDownloadURL();
+
+        this.setState({url: url});
+
+        this.savePost();
+
+        this.props.navigation.navigate('Navigation');
+
+
+    };
+
+    savePost = () => {
+        console.log('in Save');
+
+        firestore()
+            .collection('posts')
+
+            .add({
+                title: this.state.title,
+                email: this.state.email,
+                url: this.state.url,
+                name:this.state.name,
+                avatar:this.state.avatar,
+                job:this.state.job
+
+            })
+            .then(async (response) => {
+                this.setState({docid: response.id});
+                await AsyncStorage.setItem('docid', this.state.docid);
+
+                console.log('User added firebase! ');
+
+
+            });
+    };
+
+
     render() {
         return (
+
             <ScrollView style={styles.container}>
 
                 <View style={styles.postTop}>
@@ -72,7 +147,7 @@ class PostPage extends Component {
                     />
                     <Text style={styles.txtShare}>Share post</Text>
 
-                    <TouchableOpacity style={styles.btnPost}>
+                    <TouchableOpacity style={styles.btnPost} onPress={this.UploadImage}>
                         <Text style={styles.txtPost}>Post</Text>
                     </TouchableOpacity>
                 </View>
@@ -84,7 +159,7 @@ class PostPage extends Component {
                         </Avatar.Image>
                     </View>
                     <View style={styles.userNameView}>
-                        <Text style={styles.txtUser}>Shashini Prabodha</Text>
+                        <Text style={styles.txtUser}>{this.state.name}</Text>
                         <TouchableOpacity style={styles.typeView}>
                             <Image source={require('../assets/globe.png')}
                                    resizeMode="contain"
@@ -107,18 +182,25 @@ class PostPage extends Component {
                             numberOfLines={4}
                             placeholder="What do you want to talk about ?"
                             fontSize="lg"
-                            mb="32"
+                            // mb="32"
                             width="94%"
-                            height="80%"
+                            height="100%"
                             color="#666666"
                             borderColor="white"
                             borderWidth={0}
+                            onPress={this.txtPress}
                         />
                     </NativeBaseProvider>
                 </View>
+                <View style={styles.imageView}>
+                    <Image source={{uri: this.state.image}}
+                           resizeMode="contain"
+                           style={styles.image}
+                    />
+                </View>
 
                 <View style={styles.postButtonView}>
-                    <TouchableOpacity style={styles.addPhotoView}>
+                    <TouchableOpacity style={styles.addPhotoView} onPress={this.AddPhoto}>
                         <Image source={require('../assets/add_image.png')}
                                resizeMode="contain"
                                style={styles.addImg}
@@ -274,8 +356,8 @@ const styles = StyleSheet.create({
     },
     typeAreaView: {
         width: '100%',
-        height: '32%',
-        backgroundColor: '#FFFFFF',
+        height: '12%',
+        backgroundColor: '#ffffff',
     },
     postButtonView: {
         width: '100%',
@@ -284,6 +366,16 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         elevation: 6,
+    },
+    imageView: {
+        width: '100%',
+        height: 250,
+        backgroundColor: '#b63a3a',
+    },
+    image: {
+        width: '100%',
+        height: 250,
+        backgroundColor: '#ffffff',
     },
     addPhotoView: {
         width: '100%',

@@ -38,7 +38,6 @@ export default class UploadAvator extends Component {
                 email: this.state.email,
                 job: this.state.job,
                 avatar: this.state.avatar,
-                postLink: [],
 
             })
             .then(async (response) => {

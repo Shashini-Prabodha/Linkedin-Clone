@@ -6,35 +6,35 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
 
-
-const DATA = [
-    {
-        id: 1,
-        title: 'The Simpsons',
-        year: 1989,
-        image: require('../assets/sigiriya.jpg'),
-    },
-    {
-        id: 2,
-        title: 'SpongeBob SquarePants ',
-        year: 1999,
-        image: require('../assets/sigiriya.jpg'),
-
-
-    },
-    {
-        id: 3,
-        title: 'The Simpsons',
-        year: 1989,
-        image: require('../assets/sigiriya.jpg'),
-    },
-    {
-        id: 4,
-        title: 'SpongeBob SquarePants ',
-        year: 1999,
-        image: require('../assets/sigiriya.jpg'),
-    },
-];
+//
+// const DATA = [
+//     {
+//         id: 1,
+//         title: 'The Simpsons',
+//         year: 1989,
+//         image: require('../assets/sigiriya.jpg'),
+//     },
+//     {
+//         id: 2,
+//         title: 'SpongeBob SquarePants ',
+//         year: 1999,
+//         image: require('../assets/sigiriya.jpg'),
+//
+//
+//     },
+//     {
+//         id: 3,
+//         title: 'The Simpsons',
+//         year: 1989,
+//         image: require('../assets/sigiriya.jpg'),
+//     },
+//     {
+//         id: 4,
+//         title: 'SpongeBob SquarePants ',
+//         year: 1999,
+//         image: require('../assets/sigiriya.jpg'),
+//     },
+// ];
 
 
 
@@ -47,7 +47,10 @@ class Home extends Component {
             job: '',
             avatar:'',
             email:'',
+            url:'',
+            title:'',
             status: false,
+            list:[]
         };
     }
 
@@ -84,23 +87,49 @@ class Home extends Component {
             this.setState({job: job});
 
             this.getAvatar();
+            this.getPosts();
 
         } catch (e) {
             // error reading value
         }
     };
 
+    getPosts=()=>{
+       firestore()
+            .collection('posts')
+            .onSnapshot(querySnapshot => {
+                const posts = [];
+
+                querySnapshot.forEach(documentSnapshot => {
+                    posts.push({
+                        email: documentSnapshot.data().email,
+                        title: documentSnapshot.data().title,
+                        url: documentSnapshot.data().url,
+                        avatar: documentSnapshot.data().avatar,
+                        job: documentSnapshot.data().job,
+                        name: documentSnapshot.data().name,
+                        key:documentSnapshot.id,
+
+                    });
+                });
+
+                this.setState({
+                    list: posts
+                })
+
+            });
+    }
 
     renderItem = ({item, index}) => (
         <View style={styles.card}>
             <View style={styles.nameTag}>
 
-                <Avatar.Image size={40} source={{uri:this.state.avatar}}
+                <Avatar.Image size={40} source={{uri:item.avatar}}
                               style={styles.avatar}/>
                 <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
                 <View>
-                    <Text style={styles.title}>{this.state.fname} {this.state.lname} </Text>
-                    <Text>{this.state.job}</Text>
+                    <Text style={styles.title}>{item.name} </Text>
+                    <Text>{item.job}</Text>
                     <Text>1m <Ionicons name="ellipse" size={5}></Ionicons> <Ionicons name="globe-outline"></Ionicons>
                     </Text>
                     <Image
@@ -112,12 +141,12 @@ class Home extends Component {
             </View>
 
 
-            <Text style={styles.picCaption}>Picture Title</Text>
+            <Text style={styles.picCaption}>{item.title}</Text>
 
             <View style={styles.cardBody}>
                 <Image
                     style={styles.cimg}
-                    source={item.image}
+                    source={{uri:item.url}}
                     resizeMode="contain"
                 />
             </View>
@@ -171,9 +200,10 @@ class Home extends Component {
 
 
                 <View style={styles.container}>
+                   {/*<Text  style={{marginTop:'60%', marginLeft:'37%'}}> No Content</Text>*/}
                     <FlatList
-                        data={DATA}
-                        keyExtractor={(item) => item.id.toString()}
+                        data={this.state.list}
+                        keyExtractor={(item) => item.key}
                         renderItem={this.renderItem}
                     />
                 </View>
@@ -200,12 +230,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: '11%',
     },
-    // item: {
-    //     backgroundColor: '#f5f520',
-    //     padding: 20,
-    //     marginVertical: 8,
-    //     marginHorizontal: 16,
-    // },
     card: {
         width: '100%',
         backgroundColor: '#ffffff',
@@ -248,11 +272,11 @@ const styles = StyleSheet.create({
         marginLeft: '4%',
     },
     cimg: {
-        width: 412,
-        height: 400,
-        marginTop: '-15%',
+        width: '100%',
+        height: '88%',
+        marginTop: '-7%',
         marginBottom: '0%',
-
+        backgroundColor:'#e7e7e7'
     },
     cardFooter: {
         flexDirection: 'row',
