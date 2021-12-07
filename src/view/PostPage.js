@@ -197,7 +197,6 @@ class PostPage extends Component {
                 </View>
                 <View style={styles.imageView}>
                     <Image source={{uri: this.state.image}}
-                           resizeMode="contain"
                            style={styles.image}
                     />
                 </View>

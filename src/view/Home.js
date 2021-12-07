@@ -60,10 +60,13 @@ class Home extends Component {
     };
 
     getPosts = () => {
+        console.log(this.state.email+" *********")
         firestore()
             .collection('posts')
-            .orderBy('email', 'desc')
-            .onSnapshot(querySnapshot => {
+            // .orderBy('email', 'desc')
+            .where('email', '==', this.state.email)
+            .get()
+            .then(querySnapshot => {
                 const posts = [];
 
                 querySnapshot.forEach(documentSnapshot => {
@@ -86,6 +89,10 @@ class Home extends Component {
             });
     };
 
+    subMenu=()=>{
+        console.log("Sub menu clicked ")
+    }
+
     renderItem = ({item, index}) => (
         <Animatable.View animation="bounceIn" duration={3000}>
 
@@ -104,7 +111,8 @@ class Home extends Component {
                         <Image
                             source={require('../assets/menu_vertical_64px.png')}
                             resizeMode="contain"
-                            style={styles.dots}>
+                            style={styles.dots}
+                        >
                         </Image>
                     </View>
                 </View>
@@ -116,7 +124,6 @@ class Home extends Component {
                     <Image
                         style={styles.cimg}
                         source={{uri: item.url}}
-                        resizeMode="contain"
                     />
                 </View>
 

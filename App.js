@@ -56,7 +56,6 @@ export default class App extends Component {
             return <WelcomePage/>;
         } else {
             if (this.state.email != 'empty') {
-                console.log("this.state.email "+this.state.email)
                 return <Navigation/>;
 
             } else {
