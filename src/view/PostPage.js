@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, TouchableOpacity, View, Text, Image, ScrollView, Alert} from 'react-native';
-import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import {Avatar, IconButton, TextInput} from 'react-native-paper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
-
 import {TextArea, NativeBaseProvider} from 'native-base';
-import {position} from 'native-base/lib/typescript/theme/styled-system';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
+import * as Animatable from 'react-native-animatable';
 
 class PostPage extends Component {
     constructor(props) {
@@ -139,6 +136,7 @@ class PostPage extends Component {
         return (
 
             <ScrollView style={styles.container}>
+                <Animatable.View animation="slideInUp" duration={300}>
 
                 <View style={styles.postTop}>
                     <IconButton
@@ -263,6 +261,8 @@ class PostPage extends Component {
                         <Text style={styles.btnTxt}> Create an event</Text>
                     </TouchableOpacity>
                 </View>
+                </Animatable.View>
+
             </ScrollView>
         );
     }

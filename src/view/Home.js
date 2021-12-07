@@ -5,38 +5,7 @@ import HeaderSection from '../common/HeaderSection';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
-
-//
-// const DATA = [
-//     {
-//         id: 1,
-//         title: 'The Simpsons',
-//         year: 1989,
-//         image: require('../assets/sigiriya.jpg'),
-//     },
-//     {
-//         id: 2,
-//         title: 'SpongeBob SquarePants ',
-//         year: 1999,
-//         image: require('../assets/sigiriya.jpg'),
-//
-//
-//     },
-//     {
-//         id: 3,
-//         title: 'The Simpsons',
-//         year: 1989,
-//         image: require('../assets/sigiriya.jpg'),
-//     },
-//     {
-//         id: 4,
-//         title: 'SpongeBob SquarePants ',
-//         year: 1999,
-//         image: require('../assets/sigiriya.jpg'),
-//     },
-// ];
-
-
+import * as Animatable from 'react-native-animatable';
 
 class Home extends Component {
     constructor(props) {
@@ -44,12 +13,12 @@ class Home extends Component {
         this.state = {
             name: '',
             job: '',
-            avatar:'',
-            email:'',
-            url:'',
-            title:'',
+            avatar: '',
+            email: '',
+            url: '',
+            title: '',
             status: false,
-            list:[]
+            list: [],
         };
     }
 
@@ -90,9 +59,10 @@ class Home extends Component {
         }
     };
 
-    getPosts=()=>{
-       firestore()
+    getPosts = () => {
+        firestore()
             .collection('posts')
+            .orderBy('email', 'desc')
             .onSnapshot(querySnapshot => {
                 const posts = [];
 
@@ -104,83 +74,88 @@ class Home extends Component {
                         avatar: documentSnapshot.data().avatar,
                         job: documentSnapshot.data().job,
                         name: documentSnapshot.data().name,
-                        key:documentSnapshot.id,
+                        key: documentSnapshot.id,
 
                     });
                 });
 
                 this.setState({
-                    list: posts
-                })
+                    list: posts,
+                });
 
             });
-    }
+    };
 
     renderItem = ({item, index}) => (
-        <View style={styles.card}>
-            <View style={styles.nameTag}>
+        <Animatable.View animation="bounceIn" duration={3000}>
 
-                <Avatar.Image size={40} source={{uri:item.avatar}}
-                              style={styles.avatar}/>
-                <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
-                <View>
-                    <Text style={styles.title}>{item.name} </Text>
-                    <Text>{item.job}</Text>
-                    <Text>1m <Ionicons name="ellipse" size={5}></Ionicons> <Ionicons name="globe-outline"></Ionicons>
-                    </Text>
-                    <Image
-                        source={require('../assets/menu_vertical_64px.png')}
-                        resizeMode="contain"
-                        style={styles.dots}>
-                    </Image>
+            <View style={styles.card}>
+                <View style={styles.nameTag}>
+
+                    <Avatar.Image size={40} source={{uri: item.avatar}}
+                                  style={styles.avatar}/>
+                    <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
+                    <View>
+                        <Text style={styles.title}>{item.name} </Text>
+                        <Text>{item.job}</Text>
+                        <Text>1m <Ionicons name="ellipse" size={5}></Ionicons> <Ionicons
+                            name="globe-outline"></Ionicons>
+                        </Text>
+                        <Image
+                            source={require('../assets/menu_vertical_64px.png')}
+                            resizeMode="contain"
+                            style={styles.dots}>
+                        </Image>
+                    </View>
                 </View>
+
+
+                <Text style={styles.picCaption}>{item.title}</Text>
+
+                <View style={styles.cardBody}>
+                    <Image
+                        style={styles.cimg}
+                        source={{uri: item.url}}
+                        resizeMode="contain"
+                    />
+                </View>
+
+                <View style={styles.cardFooter}>
+
+                    <IconButton
+                        style={styles.icon}
+                        icon="thumb-up"
+                        color="#95a5a6"
+                        size={20}
+                        onPress={() => console.log('Pressed')}
+                        accessibilityLabel="like"
+                    />
+                    <IconButton
+                        style={styles.icon}
+                        icon="comment"
+                        color="#95a5a6"
+                        size={20}
+                        onPress={() => console.log('Pressed')}
+                    />
+                    <IconButton
+                        style={styles.icon}
+                        icon="share"
+                        color="#95a5a6"
+                        size={22}
+                        onPress={() => console.log('Pressed')}
+                    />
+                    <IconButton
+                        style={styles.icon}
+                        icon="telegram"
+                        color="#95a5a6"
+                        size={22}
+                        onPress={() => console.log('Pressed')}
+                    />
+                </View>
+
             </View>
+        </Animatable.View>
 
-
-            <Text style={styles.picCaption}>{item.title}</Text>
-
-            <View style={styles.cardBody}>
-                <Image
-                    style={styles.cimg}
-                    source={{uri:item.url}}
-                    resizeMode="contain"
-                />
-            </View>
-
-            <View style={styles.cardFooter}>
-
-                <IconButton
-                    style={styles.icon}
-                    icon="thumb-up"
-                    color="#95a5a6"
-                    size={20}
-                    onPress={() => console.log('Pressed')}
-                    accessibilityLabel="like"
-                />
-                <IconButton
-                    style={styles.icon}
-                    icon="comment"
-                    color="#95a5a6"
-                    size={20}
-                    onPress={() => console.log('Pressed')}
-                />
-                <IconButton
-                    style={styles.icon}
-                    icon="share"
-                    color="#95a5a6"
-                    size={22}
-                    onPress={() => console.log('Pressed')}
-                />
-                <IconButton
-                    style={styles.icon}
-                    icon="telegram"
-                    color="#95a5a6"
-                    size={22}
-                    onPress={() => console.log('Pressed')}
-                />
-            </View>
-
-        </View>
     );
 
     componentDidMount() {
@@ -189,24 +164,24 @@ class Home extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <HeaderSection></HeaderSection>
-                </View>
-
 
                 <View style={styles.container}>
-                   {/*<Text  style={{marginTop:'60%', marginLeft:'37%'}}> No Content</Text>*/}
-                    <FlatList
-                        data={this.state.list}
-                        keyExtractor={(item) => item.key}
-                        renderItem={this.renderItem}
-                    />
+
+                    <View style={styles.header}>
+                        <HeaderSection></HeaderSection>
+                    </View>
+
+
+                    <View style={styles.container}>
+                        {/*<Text  style={{marginTop:'60%', marginLeft:'37%'}}> No Content</Text>*/}
+                        <FlatList
+                            data={this.state.list}
+                            keyExtractor={(item) => item.key}
+                            renderItem={this.renderItem}
+                        />
+                    </View>
                 </View>
-
-
-            </View>
-        );
+       );
     }
 }
 
@@ -238,7 +213,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        color:'#000000',
+        color: '#000000',
     },
     dots: {
         height: '20%',
@@ -266,9 +241,9 @@ const styles = StyleSheet.create({
         color: '#000000',
         marginTop: '-9%',
         marginLeft: '4%',
-        width:'90%',
-        backgroundColor:'#ffffff',
-        zIndex:1
+        width: '90%',
+        backgroundColor: '#ffffff',
+        zIndex: 1,
 
     },
     cimg: {
@@ -276,7 +251,7 @@ const styles = StyleSheet.create({
         height: '80%',
         marginTop: '4%',
         marginBottom: '0%',
-        backgroundColor:'#f5f5f5'
+        backgroundColor: '#f5f5f5',
     },
     cardFooter: {
         flexDirection: 'row',
