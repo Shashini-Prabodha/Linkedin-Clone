@@ -66,25 +66,21 @@ export default class PasswordPage extends Component {
 
 
     JoinNow = async () => {
+        const user = auth().currentUser;
+        user.updatePassword(this.state.password).then(() => {
+            console.log('Password updated!');
+            this.props.navigation.navigate('AddDetails');
 
-        // Get the users ID token
-        const {idToken} = await GoogleSignin.signIn();
-
-        // Create a Google credential with the token
-        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-        // Sign-in the user with the credential
-        const user = auth().signInWithCredential(googleCredential);
-
-        console.log((await user).user.updatePassword(this.state.password));
-        this.props.navigation.navigate('AddDetails');
+        }).catch((error) => {
+            console.log(error);
+        });
 
     };
 
 
     componentDidMount() {
         this.getData();
-        // LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+        LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
     }
 
     render() {
@@ -118,7 +114,7 @@ export default class PasswordPage extends Component {
                         <Text style={styles.txtP}>6 or more characters</Text>}
 
 
-                    <View style={{marginTop:30, marginBottom: 10, marginLeft: -50}}>
+                    <View style={{marginTop: 30, marginBottom: 10, marginLeft: -50}}>
                         <Text style={styles.txt2}>By clicking Agree & Join, you agree to the LinkedIn</Text>
                         <Text
                             style={{

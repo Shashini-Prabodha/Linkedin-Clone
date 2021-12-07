@@ -78,6 +78,7 @@ class SignIn extends Component {
         const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
         console.log('googleCredential'+googleCredential);
+        this.props.navigation.navigate('Navigation');
 
         // Sign-in the user with the credential
         // const user = auth().signInWithCredential(googleCredential);

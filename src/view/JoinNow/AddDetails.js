@@ -22,7 +22,7 @@ export default class AddDetails extends Component {
             const email = await AsyncStorage.getItem('email');
             const password = await AsyncStorage.getItem('password');
             if (email !== null) {
-                console.log(email + ' # ' + await AsyncStorage.getItem('firstName'));
+                console.log(email + ' # ' + await AsyncStorage.getItem('name'));
             }
         } catch (e) {
             // error reading value

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, KeyboardAvoidingView, Image, TouchableOpacity} from 'react-native';
-import {Button} from 'react-native-paper';
-import {InputTextField} from '../common/InputTextField';
+import * as Animatable from 'react-native-animatable';
+
 
 import auth from '@react-native-firebase/auth';
 import {
@@ -53,10 +53,11 @@ export default class LoginPage extends Component {
         await AsyncStorage.setItem('email', this.state.email);
         await AsyncStorage.setItem('name', this.state.name);
         await AsyncStorage.setItem('url', this.state.url);
+        // await AsyncStorage.setItem('user', (await user).user);
 
 
         console.log((await user).user.displayName);
-        console.log((await user).user);
+        // console.log((await user).user);
         this.props.navigation.navigate('PasswordPage');
 
     };

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 class WelcomePage extends Component {
     constructor(props) {
@@ -9,15 +10,20 @@ class WelcomePage extends Component {
 
     render() {
         return (
+
             <View style={styles.container}>
                 <View style={styles.shape}>
 
                 </View>
+                <Animatable.View animation="bounceIn" duration={4000}>
+
                 <Image
                     source={require('../assets/logo1.png')}
                     resizeMode="contain"
                     style={styles.pic}>
                 </Image>
+                </Animatable.View>
+
             </View>
         );
     }

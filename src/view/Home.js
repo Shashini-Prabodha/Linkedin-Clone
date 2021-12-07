@@ -202,9 +202,9 @@ const styles = StyleSheet.create({
     },
     card: {
         width: '100%',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#fdfdfd',
         marginTop: 12,
-        height: 440,
+        height: 450,
         alignContent: 'center',
         justifyContent: 'center',
     },
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     nameTag: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginTop: '-0%',
+        marginTop: '3%',
         marginLeft: '2.5%',
     },
     online: {
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     },
     cimg: {
         width: '100%',
-        height: '80%',
+        height: '78%',
         marginTop: '4%',
         marginBottom: '0%',
         backgroundColor: '#f5f5f5',
