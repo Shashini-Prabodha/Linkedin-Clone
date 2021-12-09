@@ -19,7 +19,8 @@ export default class UploadAvator extends Component {
             job: '',
             avatar: '',
             docid: '',
-            postLink: [],
+            notConnect: [],
+            myNetowork:[]
 
         };
     }
@@ -36,6 +37,9 @@ export default class UploadAvator extends Component {
                 email: this.state.email,
                 job: this.state.job,
                 avatar: this.state.avatar,
+                notConnect: [],
+                myNetwork:[this.state.email,]
+
 
             })
             .then(async (response) => {
@@ -66,18 +70,6 @@ export default class UploadAvator extends Component {
             // error reading value
         }
     };
-
-// updateDB=()=>{
-//     firestore()
-//         .collection('Users')
-//         .doc('ABC')
-//         .update({
-//             age: 31,
-//         })
-//         .then(() => {
-//             console.log('User updated!');
-//         });
-// }
 
     componentDidMount() {
         this.getData();

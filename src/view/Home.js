@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Image, FlatList, KeyboardAvoidingView} from 'react-native';
+import {Text, View, StyleSheet, Image, FlatList, KeyboardAvoidingView, TouchableOpacity} from 'react-native';
 import {Searchbar, Avatar, IconButton} from 'react-native-paper';
 import HeaderSection from '../common/HeaderSection';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,6 +19,8 @@ class Home extends Component {
             title: '',
             status: false,
             list: [],
+            nemail: '',
+            myNetwork: [],
         };
     }
 
@@ -28,19 +30,21 @@ class Home extends Component {
             .collection('users')
             // Filter results
             .where('email', '==', this.state.email)
-            .get()
-            .then(querySnapshot => {
+            // .get()
+            .onSnapshot(querySnapshot => {
 
                 querySnapshot.forEach((doc) => {
                     this.setState({avatar: doc.data().valueOf().avatar});
                     this.setState({name: doc.data().valueOf().name});
                     this.setState({job: doc.data().valueOf().job});
+                    this.setState({myNetwork: doc.data().valueOf().myNetwork});
                 });
 
             });
     };
 
     getData = async () => {
+        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^In Home")
         try {
             const name = await AsyncStorage.getItem('name');
             const job = await AsyncStorage.getItem('job');
@@ -59,14 +63,17 @@ class Home extends Component {
         }
     };
 
+
     getPosts = () => {
-        console.log(this.state.email+" *********")
+
+
+        console.log(this.state.email + ' $$$$$$$$$$$$$$$$$$*********' + this.state.myNetwork);
         firestore()
             .collection('posts')
-            // .orderBy('email', 'desc')
-            .where('email', '==', this.state.email)
-            .get()
-            .then(querySnapshot => {
+            .orderBy('pid', 'desc')
+            // .where('email', '==', this.state.email)
+            //.get()
+            .onSnapshot(querySnapshot => {
                 const posts = [];
 
                 querySnapshot.forEach(documentSnapshot => {
@@ -82,6 +89,17 @@ class Home extends Component {
                     });
                 });
 
+                const nPosts = [];
+                console.log(posts.length + '0000000000000000000000000000000');
+                for (let i = 0; i < posts.length; i++) {
+                    for (let j = 0; j < this.state.myNetwork.length; j++) {
+                        if (posts[i].email == this.state.myNetwork[j]) {
+                            console.log(' i=> ' + i + ' + posts[i].email+ ' + posts[i].email+" j=> "+j+" my net "+this.state.myNetwork[j]);
+                            nPosts.push(posts[i]);
+                        }
+                    }
+
+                }
                 this.setState({
                     list: posts,
                 });
@@ -89,11 +107,38 @@ class Home extends Component {
             });
     };
 
-    subMenu=()=>{
-        console.log("Sub menu clicked ")
-    }
+    // getPosts = () => {
+    //     console.log(this.state.email+" *********")
+    //     firestore()
+    //         .collection('posts')
+    //         .orderBy('email', 'desc')
+    //         // .where('email', '==', this.state.email)
+    //         // .get()
+    //         .onSnapshot(querySnapshot => {
+    //             const posts = [];
+    //
+    //             querySnapshot.forEach(documentSnapshot => {
+    //                 posts.push({
+    //                     email: documentSnapshot.data().email,
+    //                     title: documentSnapshot.data().title,
+    //                     url: documentSnapshot.data().url,
+    //                     avatar: documentSnapshot.data().avatar,
+    //                     job: documentSnapshot.data().job,
+    //                     name: documentSnapshot.data().name,
+    //                     key: documentSnapshot.id,
+    //
+    //                 });
+    //             });
+    //
+    //             this.setState({
+    //                 list: posts,
+    //             });
+    //
+    //         });
+    // };
 
     renderItem = ({item, index}) => (
+
         <Animatable.View animation="bounceIn" duration={3000}>
 
             <View style={styles.card}>
@@ -169,26 +214,39 @@ class Home extends Component {
         this.getData();
     }
 
+    click=()=>{
+        console.log("click");
+        this.getPosts();
+
+    }
+
     render() {
         return (
 
-                <View style={styles.container}>
+            <View style={styles.container}>
 
-                    <View style={styles.header}>
-                        <HeaderSection></HeaderSection>
-                    </View>
-
-
-                    <View style={styles.container}>
-                        {/*<Text  style={{marginTop:'60%', marginLeft:'37%'}}> No Content</Text>*/}
-                        <FlatList
-                            data={this.state.list}
-                            keyExtractor={(item) => item.key}
-                            renderItem={this.renderItem}
-                        />
-                    </View>
+                <View style={styles.header}>
+                    <HeaderSection></HeaderSection>
+                    <TouchableOpacity onPress={this.click}>
+                        <Image
+                        source={require('../assets/rotate_right_32px.png')}
+                        resizeMode="contain"
+                        style={styles.refresh}
+                    />
+                    </TouchableOpacity>
                 </View>
-       );
+
+
+                <View style={styles.container}>
+                    {/*<Text  style={{marginTop:'60%', marginLeft:'37%'}}> No Content</Text>*/}
+                    <FlatList
+                        data={this.state.list}
+                        keyExtractor={(item) => item.key}
+                        renderItem={this.renderItem}
+                    />
+                </View>
+            </View>
+        );
     }
 }
 
@@ -269,5 +327,13 @@ const styles = StyleSheet.create({
     icon: {
         marginLeft: '10%',
         marginRight: '5%',
+    },
+    refresh: {
+    height: '30%',
+        width:25,
+        margin:0,
+        marginTop:21,
+        // backgroundColor: '#b71a1a',
+
     },
 });
