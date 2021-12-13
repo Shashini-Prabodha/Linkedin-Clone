@@ -1,6 +1,4 @@
-//Alpha-X-Software-Company
-//Mindula-Dilthushan-Manamperi
-//LinkedIn-Clone-v1.0.0
+
 import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';

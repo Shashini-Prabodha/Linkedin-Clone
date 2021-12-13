@@ -9,6 +9,7 @@ import UploadAvator from './src/view/JoinNow/UploadAvator';
 import Navigation from './src/view/Navigation';
 import PasswordPage from './src/view/PasswordPage';
 import Home from './src/view/Home';
+import Profile from './src/view/Profile';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -30,9 +31,9 @@ export default class App extends Component {
     getData = async () => {
         try {
             const email = await AsyncStorage.getItem('email');
-            if(email!=null){
-            this.setState({email: email});}
-            else{
+            if (email != null) {
+                this.setState({email: email});
+            } else {
 
             }
         } catch (e) {
@@ -74,6 +75,7 @@ export default class App extends Component {
                             <Stack.Screen name="PasswordPage" options={{headerShown: false}} component={PasswordPage}/>
                             <Stack.Screen name="SignIn" options={{headerShown: false}} component={SignIn}/>
                             <Stack.Screen name="Home" options={{headerShown: false}} component={Home}/>
+                            <Stack.Screen name="Profile" options={{headerShown: false}} component={Profile}/>
                             <Stack.Screen options={{headerShown: false}} name="Navigation" component={Navigation}/>
                         </Stack.Navigator>
                     </NavigationContainer>

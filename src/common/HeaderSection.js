@@ -69,6 +69,10 @@ class HeaderSection extends Component {
 
     }
 
+    profile = () => {
+        console.log('profile.......!');
+    };
+
     render() {
 
         return (
@@ -76,8 +80,8 @@ class HeaderSection extends Component {
                 <View style={styles.heading}>
 
                     <Avatar.Image size={40} source={{uri: this.state.avatar}}
-                                  style={styles.avatar}></Avatar.Image>
-                    <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
+                                  style={styles.avatar} onPress={this.profile}/>
+                    <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}/>
 
 
                     <Searchbar
@@ -91,6 +95,8 @@ class HeaderSection extends Component {
                         onPress={() => console.log('Pressed')}
                     />
                 </View>
+
+
             </KeyboardAvoidingView>
         );
     }

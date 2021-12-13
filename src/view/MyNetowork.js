@@ -60,7 +60,6 @@ class MyNetowork extends Component {
     renderItem = ({item, index}) => (
 
         <Animatable.View animation="bounceIn" duration={3000}>
-
             {/*<View style={styles.connectSection}>*/}
 
             <Card style={styles.card2}>
@@ -77,12 +76,10 @@ class MyNetowork extends Component {
                         fontSize: 15,
                         fontWeight: '600',
                         color: '#000000',
-                    }}>{item.name}<Ionicons name="ellipse" size={4}></Ionicons></Text>
+                    }}>{item.name}<Ionicons name="ellipse" size={4}/></Text>
                     <Text style={{marginLeft: '3%', fontSize: 14, marginTop: '2%'}}>{item.job}</Text>
 
-                    <TouchableOpacity style={styles.connect}
-
-                    >
+                    <TouchableOpacity style={styles.connect}>
 
                         <Text style={styles.connectTxt}>Connect</Text>
                     </TouchableOpacity>
@@ -227,8 +224,8 @@ class MyNetowork extends Component {
 
                     />
 
-
                 </Animatable.View>
+
 
             </ScrollView>
 
@@ -360,6 +357,16 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         padding: 5,
         fontSize: 15,
+    },
+    profile: {
+        borderWidth: 1.2,
+        borderRadius: 18,
+        borderColor: '#0032ff',
+        width: '53%',
+        margin: '2%',
+        // marginLeft: '80%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
 });

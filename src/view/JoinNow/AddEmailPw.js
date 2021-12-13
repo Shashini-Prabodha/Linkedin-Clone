@@ -23,8 +23,8 @@ export default class AddEmailPw extends Component {
         this.state = {
             email: null,
             password: null,
-            emailError: true,
-            passwordError: true,
+            emailError: false,
+            passwordError: false,
         };
     }
 

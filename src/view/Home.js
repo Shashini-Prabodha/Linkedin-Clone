@@ -44,7 +44,7 @@ class Home extends Component {
     };
 
     getData = async () => {
-        console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^In Home")
+        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^In Home');
         try {
             const name = await AsyncStorage.getItem('name');
             const job = await AsyncStorage.getItem('job');
@@ -66,7 +66,6 @@ class Home extends Component {
 
     getPosts = () => {
 
-
         console.log(this.state.email + ' $$$$$$$$$$$$$$$$$$*********' + this.state.myNetwork);
         firestore()
             .collection('posts')
@@ -74,10 +73,10 @@ class Home extends Component {
             // .where('email', '==', this.state.email)
             //.get()
             .onSnapshot(querySnapshot => {
-                const posts = [];
+                const Posts = [];
 
                 querySnapshot.forEach(documentSnapshot => {
-                    posts.push({
+                    Posts.push({
                         email: documentSnapshot.data().email,
                         title: documentSnapshot.data().title,
                         url: documentSnapshot.data().url,
@@ -90,18 +89,18 @@ class Home extends Component {
                 });
 
                 const nPosts = [];
-                console.log(posts.length + '0000000000000000000000000000000');
-                for (let i = 0; i < posts.length; i++) {
+
+                for (let i = 0; i < Posts.length; i++) {
                     for (let j = 0; j < this.state.myNetwork.length; j++) {
-                        if (posts[i].email == this.state.myNetwork[j]) {
-                            console.log(' i=> ' + i + ' + posts[i].email+ ' + posts[i].email+" j=> "+j+" my net "+this.state.myNetwork[j]);
-                            nPosts.push(posts[i]);
+                        if (Posts[i].email == this.state.myNetwork[j]) {
+                            console.log(' i=> ' + i + ' + posts[i].email+ ' + Posts[i].email + ' j=> ' + j + ' my net ' + this.state.myNetwork[j]);
+                            nPosts.push(Posts[i]);
                         }
                     }
-
                 }
+
                 this.setState({
-                    list: posts,
+                    list: Posts,
                 });
 
             });
@@ -144,8 +143,7 @@ class Home extends Component {
             <View style={styles.card}>
                 <View style={styles.nameTag}>
 
-                    <Avatar.Image size={40} source={{uri: item.avatar}}
-                                  style={styles.avatar}/>
+                    <Avatar.Image size={40} source={{uri: item.avatar}} style={styles.avatar}/>
                     <Ionicons name="ellipse" size={13} color="#07C81A" style={styles.online}></Ionicons>
                     <View>
                         <Text style={styles.title}>{item.name} </Text>
@@ -171,7 +169,6 @@ class Home extends Component {
                         source={{uri: item.url}}
                     />
                 </View>
-
                 <View style={styles.cardFooter}>
 
                     <IconButton
@@ -204,6 +201,22 @@ class Home extends Component {
                         onPress={() => console.log('Pressed')}
                     />
                 </View>
+                <View style={styles.sfooter}>
+                    <Image
+                        style={styles.icon1}
+                        source={require('../assets/blike.png')}
+                    />
+                    <Image
+                        style={styles.icon2}
+                        source={require('../assets/images.png')}
+                    />
+                    <Image
+                        style={styles.icon3}
+                        source={require('../assets/heart.png')}
+                    />
+                    <Text style={styles.commentT}>0 comments</Text>
+                </View>
+
 
             </View>
         </Animatable.View>
@@ -214,11 +227,11 @@ class Home extends Component {
         this.getData();
     }
 
-    click=()=>{
-        console.log("click");
+    click = () => {
+        console.log('click');
         this.getPosts();
 
-    }
+    };
 
     render() {
         return (
@@ -229,10 +242,10 @@ class Home extends Component {
                     <HeaderSection></HeaderSection>
                     <TouchableOpacity onPress={this.click}>
                         <Image
-                        source={require('../assets/rotate_right_32px.png')}
-                        resizeMode="contain"
-                        style={styles.refresh}
-                    />
+                            source={require('../assets/rotate_right_32px.png')}
+                            resizeMode="contain"
+                            style={styles.refresh}
+                        />
                     </TouchableOpacity>
                 </View>
 
@@ -269,7 +282,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#fdfdfd',
         marginTop: 12,
-        height: 450,
+        height: 500,
         alignContent: 'center',
         justifyContent: 'center',
     },
@@ -288,7 +301,7 @@ const styles = StyleSheet.create({
     nameTag: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginTop: '3%',
+        marginTop: '-3%',
         marginLeft: '2.5%',
     },
     online: {
@@ -313,7 +326,7 @@ const styles = StyleSheet.create({
     },
     cimg: {
         width: '100%',
-        height: '78%',
+        height: '74%',
         marginTop: '4%',
         marginBottom: '0%',
         backgroundColor: '#f5f5f5',
@@ -322,18 +335,51 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         marginTop: '-13%',
+        marginLeft: '5%',
 
     },
     icon: {
-        marginLeft: '10%',
+        marginLeft: '9%',
         marginRight: '5%',
     },
     refresh: {
-    height: '30%',
-        width:25,
-        margin:0,
-        marginTop:21,
+        height: '30%',
+        width: 25,
+        margin: 0,
+        marginTop: 21,
         // backgroundColor: '#b71a1a',
 
+    },
+    sfooter: {
+        // width: '100%',
+        marginTop: '-10%',
+        marginLeft: '1%',
+
+    },
+    icon1: {
+        width: 20,
+        height: 20,
+        marginTop: -21,
+        marginLeft: 10,
+
+    },
+    icon2: {
+        width: 20,
+        height: 20,
+        marginTop: -21,
+        marginLeft: 30,
+
+    },
+    icon3: {
+        width: 19,
+        height: 19,
+        marginTop: -20,
+        marginLeft: 50,
+
+    },
+    commentT:{
+        marginTop: -20,
+        marginLeft: '76%',
+        color:'#a9a9a9'
     },
 });

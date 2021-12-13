@@ -159,7 +159,7 @@ class PostPage extends Component {
                 await AsyncStorage.setItem('docid', this.state.docid);
 
                 console.log('Post added firebase! '+this.state.pid);
-                Alert.alert('New Post Added!');
+                Alert.alert('','New Post Added!');
 
                 this.setState({status: false});
                 this.setState({image: ''});
